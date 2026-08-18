@@ -3,37 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard - Grammar</title>
+    <title>Teacher Dashboard - Live Session</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Inter', sans-serif; margin: 0; padding: 20px; display: flex; gap: 20px; background-color: #f1f5f9; height: 100vh; box-sizing: border-box; }
         
-        /* Colunas */
-        .col-left { flex: 1.5; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; overflow-y: auto; }
+        .col-left { flex: 1.5; background: transparent; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
         .col-right { flex: 1; background: transparent; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* Tipografia e Títulos */
-        h2 { color: #003058; font-weight: 800; margin-top: 0; margin-bottom: 20px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+        .card-box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+
+        h2 { color: #003058; font-weight: 800; margin-top: 0; margin-bottom: 15px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
         
-        /* Dashboard Stats */
+        .btn-premium { width: 100%; padding: 16px; background-color: #003058; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; letter-spacing: 0.5px; }
+        .btn-premium:hover { background-color: #002244; transform: translateY(-2px); }
+
+        .input-premium { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: #f8fafc; margin-bottom: 10px; font-family: inherit; color: #1e293b; box-sizing: border-box; outline: none; transition: 0.3s; }
+        .input-premium:focus { border-color: #003058; background: #fff; }
+
         .stats-container { display: flex; gap: 15px; margin-bottom: 20px; }
         .stat-box { flex: 1; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; text-align: center; }
         .stat-number { font-size: 32px; font-weight: 800; color: #003058; line-height: 1; margin-bottom: 5px; }
         .stat-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
 
-        /* Estilo da Questão Esquerda */
-        .question-preview { background: #fff; padding: 15px 20px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #e2e8f0; border-left: 4px solid #003058; }
-        .q-title { font-weight: 800; font-size: 14px; color: #1e293b; margin-bottom: 10px; }
-        .q-opts { font-size: 13px; color: #64748b; font-weight: 600; display: flex; gap: 15px; }
-
-        /* Container do Ranking */
+        .question-form { background: #fff; padding: 20px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #e2e8f0; border-left: 4px solid #003058; }
+        
         .ranking-container { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
-
-        /* Reutilizando a classe do seu modelo */
         .card-premium-list { transition: all 0.2s ease; }
         .card-premium-list:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.08) !important; }
         
-        /* Cores de Status */
         .border-success { border-left-color: #10b981 !important; }
         .border-pending { border-left-color: #f59e0b !important; }
         .bg-success { background: #10b981 !important; }
@@ -41,7 +39,6 @@
         .text-success { color: #10b981 !important; }
         .text-pending { color: #f59e0b !important; }
         
-        /* Scrollbar customizada */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -50,21 +47,27 @@
 </head>
 <body>
 
-    <!-- Lado Esquerdo: Atividade -->
     <div class="col-left">
-        <h2><i class="fa-solid fa-laptop-file"></i> Live Grammar Activity</h2>
-        
-        <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px dashed #cbd5e1; margin-bottom: 20px;">
-            <h3 style="margin-top: 0; font-size: 16px; color: #003058; font-weight: 700; margin-bottom: 10px;">Context / Grammar Rule (Optional)</h3>
-            <p style="font-size: 14px; line-height: 1.6; color: #334155; margin: 0;">This activity tests the students' knowledge of present simple, verb tenses, and relative clauses. Instruct students to read the sentences carefully and choose the option that best completes the gap.</p>
+        <!-- ÁREA DE GERAÇÃO E QR CODE -->
+        <div class="card-box" style="text-align: center; border-top: 5px solid #003058;">
+            <button id="btnGerarSessao" class="btn-premium" style="width: auto; padding: 14px 28px; font-size: 15px; background-color: #10b981;">
+                <i class="fa-solid fa-cloud-arrow-up"></i> SALVAR QUESTÕES E GERAR SESSÃO
+            </button>
+            
+            <div id="qrCodeDisplay" style="display: none; flex-direction: column; align-items: center; margin-top: 25px;">
+                <p style="font-weight: 800; color: #003058; margin-bottom: 15px; text-transform: uppercase; font-size: 18px;">Scan to Join:</p>
+                <img id="qrImage" src="" alt="QR Code" style="border-radius: 12px; border: 5px solid #003058; box-shadow: 0 8px 24px rgba(0,0,0,0.15); width: 250px; height: 250px;">
+                <p style="font-size: 12px; color: #64748b; font-weight: 800; margin-top: 15px; background: #f8fafc; padding: 8px 16px; border-radius: 20px; border: 1px solid #e2e8f0;">SESSION ID: <span id="sessaoIdDisplay" style="color: #003058;"></span></p>
+            </div>
         </div>
 
-        <div id="previewQuestoes">
-            <!-- As questões serão injetadas aqui pelo JS para demonstração -->
+        <!-- FORMULÁRIO DE CRIAÇÃO DAS QUESTÕES -->
+        <div class="card-box" id="areaCriacaoQuestoes">
+            <h2 style="font-size: 18px;"><i class="fa-solid fa-pen-to-square"></i> Criar Questões</h2>
+            <div id="formQuestoesContainer"></div>
         </div>
     </div>
 
-    <!-- Lado Direito: Dashboard -->
     <div class="col-right">
         <div class="stats-container">
             <div class="stat-box">
@@ -79,14 +82,13 @@
         
         <h2 style="font-size: 18px;"><i class="fa-solid fa-ranking-star"></i> Live Ranking</h2>
         <div class="ranking-container" id="rankingList">
-            <!-- A lista premium será injetada aqui -->
-            <p style="text-align: center; color: #94a3b8; font-weight: 600; margin-top: 40px;">Waiting for students to join...</p>
+            <p style="text-align: center; color: #94a3b8; font-weight: 600; margin-top: 40px;">Waiting for a session to start...</p>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDoPCn9UisXYRJFKwxfPoe-5nIhPqOVXt0",
@@ -100,91 +102,160 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Renderiza uma prévia das questões para o professor acompanhar
-        const grammarQuestions = [
-            { q: "She ___ to the park every weekend.", opts: { A: "go", B: "goes", C: "going" } },
-            { q: "I have ___ reading this book for two hours.", opts: { A: "been", B: "being", C: "be" } },
-            { q: "If it rains tomorrow, we ___ stay at home.", opts: { A: "would", B: "will", C: "did" } },
-            { q: "He is the man ___ stole my car.", opts: { A: "which", B: "who", C: "whom" } },
-            { q: "By next year, they ___ finished the project.", opts: { A: "will have", B: "would have", C: "have" } }
-            // Reduzido para o código ficar mais limpo, visualmente o professor sabe a estrutura
-        ];
+        // ==========================================
+        // SUBSTITUA PELO SEU LINK DO REPOSITÓRIO DO ALUNO:
+        const urlBaseAluno = "https://SEU_GITHUB.github.io/SEU_REPO_ALUNO/";
+        // ==========================================
 
-        const previewQuestoes = document.getElementById('previewQuestoes');
-        grammarQuestions.forEach((item, index) => {
-            const i = index + 1;
-            previewQuestoes.innerHTML += `
-                <div class="question-preview">
-                    <div class="q-title">Q${i}. ${item.q}</div>
-                    <div class="q-opts">
-                        <span><strong>A)</strong> ${item.opts.A}</span>
-                        <span><strong>B)</strong> ${item.opts.B}</span>
-                        <span><strong>C)</strong> ${item.opts.C}</span>
+        let unsubscribe = null;
+
+        // 1. GERA OS 10 CAMPOS DE QUESTÕES NO HTML
+        const containerForm = document.getElementById('formQuestoesContainer');
+        for (let i = 1; i <= 10; i++) {
+            containerForm.innerHTML += `
+                <div class="question-form">
+                    <h4 style="margin-top:0; color:#003058; font-weight: 800;">Questão ${i}</h4>
+                    <input type="text" id="q-${i}" class="input-premium" placeholder="Digite o enunciado da questão..." autocomplete="off">
+                    
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="optA-${i}" class="input-premium" placeholder="Alternativa A" autocomplete="off">
+                        <input type="text" id="optB-${i}" class="input-premium" placeholder="Alternativa B" autocomplete="off">
+                        <input type="text" id="optC-${i}" class="input-premium" placeholder="Alternativa C" autocomplete="off">
+                    </div>
+                    
+                    <div style="display:flex; align-items:center; gap: 10px; margin-top: 5px;">
+                        <span style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">Gabarito:</span>
+                        <select id="ans-${i}" class="input-premium" style="width: auto; margin-bottom: 0; padding: 8px;">
+                            <option value="A">Alternativa A</option>
+                            <option value="B">Alternativa B</option>
+                            <option value="C">Alternativa C</option>
+                        </select>
                     </div>
                 </div>
             `;
-        });
-        previewQuestoes.innerHTML += `<div style="text-align:center; color:#94a3b8; font-weight:700; font-size:12px; margin-top:20px;">+ 5 MORE QUESTIONS HIDDEN</div>`;
+        }
 
-        // Escuta a coleção no Firestore
-        const q = query(collection(db, "grammar_activity"), orderBy("score", "desc"));
-        
-        onSnapshot(q, (snapshot) => {
-            let logados = 0;
-            let entregues = 0;
-            const rankingList = document.getElementById('rankingList');
+        // 2. AÇÃO DE SALVAR QUESTÕES E GERAR QR CODE
+        document.getElementById('btnGerarSessao').addEventListener('click', async () => {
+            const btn = document.getElementById('btnGerarSessao');
             
-            if (snapshot.empty) {
-                rankingList.innerHTML = '<p style="text-align: center; color: #94a3b8; font-weight: 600; margin-top: 40px;">Waiting for students to join...</p>';
-                document.getElementById('countLogados').innerText = 0;
-                document.getElementById('countEntregues').innerText = 0;
+            // Monta o array de questões recolhendo os valores dos inputs
+            let questoesSalvas = [];
+            let temQuestaoInvalida = false;
+
+            for (let i = 1; i <= 10; i++) {
+                const enunciado = document.getElementById(`q-${i}`).value.trim();
+                const optA = document.getElementById(`optA-${i}`).value.trim();
+                const optB = document.getElementById(`optB-${i}`).value.trim();
+                const optC = document.getElementById(`optC-${i}`).value.trim();
+                const answer = document.getElementById(`ans-${i}`).value;
+
+                if (!enunciado || !optA || !optB || !optC) {
+                    temQuestaoInvalida = true;
+                }
+
+                questoesSalvas.push({
+                    q: enunciado,
+                    opts: { A: optA, B: optB, C: optC },
+                    answer: answer
+                });
+            }
+
+            if (temQuestaoInvalida) {
+                alert("Por favor, preencha todos os campos das 10 questões antes de salvar.");
                 return;
             }
 
-            rankingList.innerHTML = ''; 
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> SALVANDO...';
+            btn.style.pointerEvents = 'none';
 
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                logados++;
+            try {
+                // Salva a sessão E as questões no Firestore
+                const sessaoRef = await addDoc(collection(db, "sessoes_ativas"), {
+                    dataCriacao: new Date(),
+                    status: "aberta",
+                    questoes: questoesSalvas
+                });
                 
-                const isEntregue = data.status === "entregue";
-                if (isEntregue) entregues++;
+                const sessaoAtualId = sessaoRef.id;
+                const linkCompleto = `${urlBaseAluno}?id=${sessaoAtualId}`;
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(linkCompleto)}`;
 
-                // Lógica de cores baseada no status
-                const borderClass = isEntregue ? "border-success" : "border-pending";
-                const bgClass = isEntregue ? "bg-success" : "bg-pending";
-                const textClass = isEntregue ? "text-success" : "text-pending";
-                const iconClass = isEntregue ? "fa-face-smile" : "fa-face-rolling-eyes";
+                // Exibe o QR Code e esconde o formulário
+                document.getElementById('qrImage').src = qrUrl;
+                document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId;
+                document.getElementById('qrCodeDisplay').style.display = 'flex';
+                document.getElementById('areaCriacaoQuestoes').style.display = 'none';
                 
-                const statusText = isEntregue ? "SUBMITTED" : "WORKING...";
-                const scoreDisplay = isEntregue ? `${data.score}/10` : `- / -`;
+                iniciarMonitoramento(sessaoAtualId);
 
-                // Renderizando o card idêntico ao modelo premium fornecido
-                rankingList.innerHTML += `
-                    <div class="card-premium-list ${borderClass}" style="margin-bottom:10.5px; padding:0 15px; border-left:4px solid; background:#fff; border-radius:8px; display:flex; align-items:center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); height: 45px; box-sizing: border-box;">
-                        
-                        <div style="flex: 2; display: flex; align-items: center; gap: 10px; overflow: hidden;">
-                            <i class="fa-solid ${iconClass} ${textClass}" style="font-size: 22px; flex-shrink: 0;"></i>
-                            <h3 style="margin:0; color:#003058; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-transform: uppercase;">${data.name}</h3>
-                        </div>
-                        
-                        <div style="flex: 1; text-align:center; font-size:11px; font-weight:800; white-space:nowrap; padding:0 5px;" class="${textClass}">
-                            ${statusText}
-                        </div>
-                        
-                        <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
-                            <span class="${bgClass}" style="font-size:11px; padding:4px 12px; color:white; border-radius:6px; font-weight:800; white-space:nowrap;">
-                                SCORE: ${scoreDisplay}
-                            </span>
-                        </div>
-                        
-                    </div>
-                `;
-            });
-
-            document.getElementById('countLogados').innerText = logados;
-            document.getElementById('countEntregues').innerText = entregues;
+            } catch (e) {
+                console.error("Erro ao gerar sessão:", e);
+                alert("Falha ao criar sala.");
+                btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> TENTAR NOVAMENTE';
+                btn.style.pointerEvents = 'auto';
+            }
         });
+
+        // 3. MONITORAMENTO EM TEMPO REAL
+        function iniciarMonitoramento(idSessao) {
+            if (unsubscribe) unsubscribe();
+
+            const q = query(collection(db, "grammar_activity"), where("sessaoId", "==", idSessao));
+            
+            unsubscribe = onSnapshot(q, (snapshot) => {
+                let logados = 0;
+                let entregues = 0;
+                const rankingList = document.getElementById('rankingList');
+                
+                if (snapshot.empty) {
+                    rankingList.innerHTML = '<p style="text-align: center; color: #94a3b8; font-weight: 600; margin-top: 40px;">Nenhum aluno entrou ainda...</p>';
+                    document.getElementById('countLogados').innerText = 0;
+                    document.getElementById('countEntregues').innerText = 0;
+                    return;
+                }
+
+                rankingList.innerHTML = ''; 
+
+                let alunos = [];
+                snapshot.forEach((doc) => { alunos.push({ id: doc.id, ...doc.data() }); });
+                alunos.sort((a, b) => b.score - a.score);
+
+                alunos.forEach((data) => {
+                    logados++;
+                    const isEntregue = data.status === "entregue";
+                    if (isEntregue) entregues++;
+
+                    const borderClass = isEntregue ? "border-success" : "border-pending";
+                    const bgClass = isEntregue ? "bg-success" : "bg-pending";
+                    const textClass = isEntregue ? "text-success" : "text-pending";
+                    const iconClass = isEntregue ? "fa-face-smile" : "fa-face-rolling-eyes";
+                    
+                    const statusText = isEntregue ? "ENTREGUE" : "FAZENDO...";
+                    const scoreDisplay = isEntregue ? `${data.score}/10` : `- / -`;
+
+                    rankingList.innerHTML += `
+                        <div class="card-premium-list ${borderClass}" style="margin-bottom:10.5px; padding:0 15px; border-left:4px solid; background:#fff; border-radius:8px; display:flex; align-items:center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); height: 45px; box-sizing: border-box;">
+                            <div style="flex: 2; display: flex; align-items: center; gap: 10px; overflow: hidden;">
+                                <i class="fa-solid ${iconClass} ${textClass}" style="font-size: 22px; flex-shrink: 0;"></i>
+                                <h3 style="margin:0; color:#003058; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-transform: uppercase;">${data.name}</h3>
+                            </div>
+                            <div style="flex: 1; text-align:center; font-size:11px; font-weight:800; white-space:nowrap; padding:0 5px;" class="${textClass}">
+                                ${statusText}
+                            </div>
+                            <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
+                                <span class="${bgClass}" style="font-size:11px; padding:4px 12px; color:white; border-radius:6px; font-weight:800; white-space:nowrap;">
+                                    NOTA: ${scoreDisplay}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                document.getElementById('countLogados').innerText = logados;
+                document.getElementById('countEntregues').innerText = entregues;
+            });
+        }
     </script>
 </body>
 </html>
