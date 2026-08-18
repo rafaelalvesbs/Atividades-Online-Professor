@@ -18,6 +18,9 @@
         .btn-premium { width: 100%; padding: 16px; background-color: #003058; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; letter-spacing: 0.5px; }
         .btn-premium:hover { background-color: #002244; transform: translateY(-2px); }
 
+        .btn-action { background: #003058; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 11px; padding: 10px 15px; transition: 0.2s; }
+        .btn-action:hover { opacity: 0.9; transform: scale(0.98); }
+
         .input-premium { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: #f8fafc; margin-bottom: 10px; font-family: inherit; color: #1e293b; box-sizing: border-box; outline: none; transition: 0.3s; }
         .input-premium:focus { border-color: #003058; background: #fff; }
 
@@ -38,6 +41,10 @@
         .bg-pending { background: #f59e0b !important; }
         .text-success { color: #10b981 !important; }
         .text-pending { color: #f59e0b !important; }
+
+        /* Modal Styles */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,48,88,0.7); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(4px); }
+        .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 15px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
@@ -46,6 +53,24 @@
     </style>
 </head>
 <body>
+
+    <!-- MODAL IMPORTAÇÃO -->
+    <div id="modal-import" class="modal-overlay">
+        <div class="modal-content">
+            <h3 style="color:#003058; margin-top:0; font-weight: 800;"><i class="fa-solid fa-file-import"></i> Importar Atividade</h3>
+            <p style="font-size:13px; color:#64748b;">Cole o texto gerado pela IA (questões, alternativas e gabarito).</p>
+            <textarea id="texto-importar" class="input-premium" style="height:250px; resize:none; margin-top:10px;" placeholder="Ex: 
+1) The cat ___ on the table.
+a) is
+b) are
+c) am
+correct answer: a"></textarea>
+            <div style="display:flex; gap:10px; margin-top:15px;">
+                <button class="btn-premium" onclick="processarImportacao()" style="padding: 12px; flex: 1;">PROCESSAR</button>
+                <button class="btn-premium" onclick="document.getElementById('modal-import').style.display='none'" style="padding: 12px; flex: 1; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;">CANCELAR</button>
+            </div>
+        </div>
+    </div>
 
     <div class="col-left">
         <!-- ÁREA DE GERAÇÃO E QR CODE -->
@@ -63,7 +88,13 @@
 
         <!-- FORMULÁRIO DE CRIAÇÃO DAS QUESTÕES -->
         <div class="card-box" id="areaCriacaoQuestoes">
-            <h2 style="font-size: 18px;"><i class="fa-solid fa-pen-to-square"></i> Criar Questões</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 style="margin: 0; font-size: 18px;"><i class="fa-solid fa-pen-to-square"></i> Criar Questões</h2>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn-action" onclick="copiarPrompt(event)"><i class="fa-solid fa-wand-magic-sparkles"></i> PROMPT</button>
+                    <button class="btn-action" style="background: #10b981;" onclick="document.getElementById('modal-import').style.display='flex'"><i class="fa-solid fa-paste"></i> IMPORTAR</button>
+                </div>
+            </div>
             <div id="formQuestoesContainer"></div>
         </div>
     </div>
@@ -86,6 +117,95 @@
         </div>
     </div>
 
+    <!-- FUNÇÕES DE IMPORTAÇÃO (Não usam módulos do Firebase) -->
+    <script>
+        // Função para copiar o prompt de instrução
+        window.copiarPrompt = function(event) {
+            const btn = event.currentTarget;
+            const prompt = "Crie uma atividade de gramática em inglês.\n\n" +
+                           "Regras importantes:\n\n" +
+                           "A atividade deve ter 10 questões.\n" +
+                           "Não use números dentro das frases.\n" +
+                           "Cada questão deve ter 3 alternativas (A, B, C).\n" +
+                           "Uma das três alternativas deve ser claramente correta. As outras duas incorretas.\n" +
+                           "A resposta correta deve ser exatamente uma das três alternativas (a, b ou c).\n" +
+                           "Coloque TODAS as questões juntas dentro de UM ÚNICO bloco de texto.\n" +
+                           "Inclua a numeração das questões.\n" +
+                           "Após cada questão, escreva:\n" +
+                           "correct answer: seguido APENAS pela letra (a, b ou c).\n\n" +
+                           "Não escreva explicações extras.";
+
+            navigator.clipboard.writeText(prompt).then(() => {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIADO!';
+                btn.style.background = '#10b981';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '#003058';
+                }, 2000);
+            });
+        };
+
+        // Função que processa o texto colado
+        window.processarImportacao = function() {
+            const texto = document.getElementById('texto-importar').value;
+            if(!texto.trim()) return;
+
+            const textoLimpo = texto.replace(/\*/g, '');
+            const partes = textoLimpo.split(/--- EXPLICAÇÃO ---/i);
+            const corpoQuestoes = partes[0];
+
+            // Separa os blocos usando a regex
+            const blocos = corpoQuestoes.split(/\n\s*(?=\d+[\)\.\-\s])|(?<=\n|^)\s*(?=\d+[\)\.\-\s])/).filter(b => b.trim().length > 5);
+
+            // Limpar campos antes de importar
+            for(let i=1; i<=10; i++) {
+                if(document.getElementById(`q-${i}`)) document.getElementById(`q-${i}`).value = "";
+                if(document.getElementById(`optA-${i}`)) document.getElementById(`optA-${i}`).value = "";
+                if(document.getElementById(`optB-${i}`)) document.getElementById(`optB-${i}`).value = "";
+                if(document.getElementById(`optC-${i}`)) document.getElementById(`optC-${i}`).value = "";
+            }
+
+            blocos.forEach((bloco, i) => {
+                if(i >= 10) return;
+                const num = i + 1;
+                const linhas = bloco.split('\n').map(l => l.trim()).filter(l => l !== "");
+                if (linhas.length < 2) return;
+
+                let enunciado = linhas[0].replace(/^\d+[\)\.\-\s]+\s*/, '');
+                const optA = linhas.find(l => l.toLowerCase().startsWith('a)'))?.replace(/^[a-zA-Z]\)\s*/, '') || "";
+                const optB = linhas.find(l => l.toLowerCase().startsWith('b)'))?.replace(/^[a-zA-Z]\)\s*/, '') || "";
+                const optC = linhas.find(l => l.toLowerCase().startsWith('c)'))?.replace(/^[a-zA-Z]\)\s*/, '') || "";
+                
+                let correta = "A";
+                const linhaGabarito = linhas.find(l => l.toLowerCase().includes('correct answer') || l.toLowerCase().includes('respuesta correcta'));
+                
+                if (linhaGabarito) {
+                    const matchLetra = linhaGabarito.match(/[:\s]+([abcABC])\s*$/);
+                    if (matchLetra) {
+                        correta = matchLetra[1].toUpperCase();
+                    }
+                }
+
+                const elEnunc = document.getElementById(`q-${num}`);
+                const elA = document.getElementById(`optA-${num}`);
+                const elB = document.getElementById(`optB-${num}`);
+                const elC = document.getElementById(`optC-${num}`);
+                const elCorreta = document.getElementById(`ans-${num}`);
+
+                if(elEnunc) elEnunc.value = enunciado;
+                if(elA) elA.value = optA;
+                if(elB) elB.value = optB;
+                if(elC) elC.value = optC;
+                if(elCorreta) elCorreta.value = correta;
+            });
+
+            document.getElementById('modal-import').style.display = 'none';
+            alert("Questões importadas com sucesso!");
+        };
+    </script>
+
+    <!-- INTEGRAÇÃO COM FIREBASE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -109,7 +229,7 @@
 
         let unsubscribe = null;
 
-        // 1. GERA OS 10 CAMPOS DE QUESTÕES NO HTML
+        // GERA OS 10 CAMPOS DE QUESTÕES NO HTML
         const containerForm = document.getElementById('formQuestoesContainer');
         for (let i = 1; i <= 10; i++) {
             containerForm.innerHTML += `
@@ -135,11 +255,10 @@
             `;
         }
 
-        // 2. AÇÃO DE SALVAR QUESTÕES E GERAR QR CODE
+        // AÇÃO DE SALVAR QUESTÕES E GERAR QR CODE
         document.getElementById('btnGerarSessao').addEventListener('click', async () => {
             const btn = document.getElementById('btnGerarSessao');
             
-            // Monta o array de questões recolhendo os valores dos inputs
             let questoesSalvas = [];
             let temQuestaoInvalida = false;
 
@@ -162,7 +281,7 @@
             }
 
             if (temQuestaoInvalida) {
-                alert("Por favor, preencha todos os campos das 10 questões antes de salvar.");
+                alert("Por favor, preencha todos os campos das 10 questões antes de salvar (Ou importe via IA).");
                 return;
             }
 
@@ -170,7 +289,6 @@
             btn.style.pointerEvents = 'none';
 
             try {
-                // Salva a sessão E as questões no Firestore
                 const sessaoRef = await addDoc(collection(db, "sessoes_ativas"), {
                     dataCriacao: new Date(),
                     status: "aberta",
@@ -181,7 +299,6 @@
                 const linkCompleto = `${urlBaseAluno}?id=${sessaoAtualId}`;
                 const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(linkCompleto)}`;
 
-                // Exibe o QR Code e esconde o formulário
                 document.getElementById('qrImage').src = qrUrl;
                 document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId;
                 document.getElementById('qrCodeDisplay').style.display = 'flex';
@@ -197,7 +314,7 @@
             }
         });
 
-        // 3. MONITORAMENTO EM TEMPO REAL
+        // MONITORAMENTO EM TEMPO REAL
         function iniciarMonitoramento(idSessao) {
             if (unsubscribe) unsubscribe();
 
