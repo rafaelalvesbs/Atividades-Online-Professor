@@ -54,16 +54,7 @@
         .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
         
         /* Centralização perfeita do QR Code */
-        #qrCodeContainer {
-            display: none; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            border-top: 5px solid #8b5cf6;
-            padding: 40px 20px;
-            height: 100%;
-        }
+        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; }
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; }
         .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 10px 18px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
@@ -79,7 +70,7 @@
 </head>
 <body>
 
-    <!-- ALERTA CUSTOMIZADO (Substitui o alert padrão) -->
+    <!-- ALERTA CUSTOMIZADO -->
     <div id="custom-alert-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 400px;">
             <div id="alert-icon" style="margin-bottom: 15px;"></div>
@@ -318,6 +309,7 @@ correct answer: a" autocomplete="off"></textarea>
                 return;
             }
 
+            // Limpar formulário antes de preencher
             for(let i=1; i<=10; i++) {
                 document.getElementById(`q-${i}`).value = "";
                 document.getElementById(`optA-${i}`).value = "";
@@ -341,8 +333,14 @@ correct answer: a" autocomplete="off"></textarea>
                     else if(lLower.startsWith('b)') || lLower.startsWith('b.')) optB = linha.substring(2).trim();
                     else if(lLower.startsWith('c)') || lLower.startsWith('c.')) optC = linha.substring(2).trim();
                     else if(lLower.includes('correct answer') || lLower.includes('resposta')) {
-                        const matchLetra = linha.match(/[:\s]+([abcABC])/);
-                        if (matchLetra) correta = matchLetra[1].toUpperCase();
+                        // FIX DA IA: Garante que ele pega apenas A, B ou C após os dois pontos, e ignora a palavra "answer"
+                        const partes = linha.split(':');
+                        if(partes.length > 1) {
+                            const matchLetra = partes[1].match(/[a-cA-C]/);
+                            if(matchLetra) {
+                                correta = matchLetra[0].toUpperCase();
+                            }
+                        }
                     }
                 });
 
@@ -355,12 +353,13 @@ correct answer: a" autocomplete="off"></textarea>
 
             document.getElementById('modal-import').style.display = 'none';
             
+            // Retorna visualmente para a página 1 após importar
             document.getElementById(`qform-${questaoAtualProf}`).style.display = 'none';
             questaoAtualProf = 1;
             document.getElementById(`qform-${questaoAtualProf}`).style.display = 'block';
             atualizarBotoesNav();
 
-            mostrarAlertaCustomizado("Importação Concluída", "Questões importadas com sucesso! Navegue pelas setas para conferir as 10 páginas.", "success");
+            mostrarAlertaCustomizado("Importação Concluída", "Questões importadas com sucesso! Navegue pelas setas para conferir as alternativas e o gabarito.", "success");
         };
     </script>
 
@@ -382,7 +381,7 @@ correct answer: a" autocomplete="off"></textarea>
         const db = getFirestore(app);
 
         // ==============================================================================
-        // LINK OFICIAL E REAL DO ALUNO CORRIGIDO. 
+        // COLOQUE AQUI O SEU LINK EXATO DE ONDE A TELA DO ALUNO ESTÁ HOSPEDADA!
         const urlBaseAluno = "https://rafaelalvesbs.github.io/Atividades-Online-Aluno/"; 
         // ==============================================================================
 
@@ -411,7 +410,7 @@ correct answer: a" autocomplete="off"></textarea>
             }
 
             if (erroNaQuestao !== -1) {
-                mostrarAlertaCustomizado("Atenção", `A Questão ${erroNaQuestao} não foi totalmente preenchida! Completos os campos para poder gerar.`, "error");
+                mostrarAlertaCustomizado("Atenção", `A Questão ${erroNaQuestao} não foi totalmente preenchida! Navegue até ela e complete os campos.`, "error");
                 
                 document.getElementById(`qform-${questaoAtualProf}`).style.display = 'none';
                 questaoAtualProf = erroNaQuestao;
@@ -438,6 +437,7 @@ correct answer: a" autocomplete="off"></textarea>
                 document.getElementById('qrImage').src = qrUrl;
                 document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId;
                 
+                // Transição suave para esconder form e exibir o QR Code centralizado
                 document.getElementById('areaCriacaoQuestoes').style.display = 'none';
                 document.getElementById('qrCodeContainer').style.display = 'flex';
                 
