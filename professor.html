@@ -3,52 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard - Live Session</title>
+    <title>Teacher Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Inter', sans-serif; margin: 0; padding: 20px; display: flex; gap: 20px; background-color: #f1f5f9; height: 100vh; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 20px; display: flex; gap: 20px; background-color: #F4F7FB; height: 100vh; box-sizing: border-box; color: #0f172a; }
         
         .col-left { flex: 1.5; background: transparent; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
         .col-right { flex: 1; background: transparent; display: flex; flex-direction: column; overflow: hidden; }
 
-        .card-box { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .card-box { background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: none; }
 
-        h2 { color: #003058; font-weight: 800; margin-top: 0; margin-bottom: 15px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; }
+        h2 { color: #0f172a; font-weight: 800; margin-top: 0; margin-bottom: 20px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; font-size: 22px; }
         
-        .btn-premium { width: 100%; padding: 16px; background-color: #003058; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; letter-spacing: 0.5px; }
-        .btn-premium:hover { background-color: #002244; transform: translateY(-2px); }
+        .btn-premium { width: 100%; padding: 18px; border: none; border-radius: 16px; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.3s; color: white; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-premium:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-gradient { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); }
+        .btn-success { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .btn-outline { background: transparent; border: 2px solid #e2e8f0; color: #64748b; }
+        .btn-outline:hover { background: #f8fafc; color: #0f172a; transform: none; box-shadow: none; }
 
-        .btn-action { background: #003058; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; padding: 12px 18px; transition: 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        .btn-action:hover { opacity: 0.9; transform: scale(0.98); }
+        .btn-action { background: #f1f5f9; color: #0f172a; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 13px; padding: 12px 20px; transition: 0.2s; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+        .btn-action:hover { background: #e2e8f0; }
 
-        .input-premium { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: #f8fafc; margin-bottom: 10px; font-family: inherit; color: #1e293b; box-sizing: border-box; outline: none; transition: 0.3s; }
-        .input-premium:focus { border-color: #003058; background: #fff; }
+        .input-premium { width: 100%; padding: 16px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 14px; background: #fff; margin-bottom: 15px; font-family: inherit; font-weight: 600; color: #0f172a; box-sizing: border-box; outline: none; transition: 0.3s; }
+        .input-premium:focus { border-color: #8b5cf6; box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1); }
 
         .stats-container { display: flex; gap: 15px; margin-bottom: 20px; }
-        .stat-box { flex: 1; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; text-align: center; }
-        .stat-number { font-size: 32px; font-weight: 800; color: #003058; line-height: 1; margin-bottom: 5px; }
-        .stat-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
+        .stat-box { flex: 1; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+        .stat-box::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #6366f1, #a855f7); }
+        .stat-box.success::before { background: linear-gradient(90deg, #10b981, #059669); }
+        .stat-number { font-size: 38px; font-weight: 800; color: #0f172a; line-height: 1; margin-bottom: 8px; }
+        .stat-label { font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .question-form { background: #fff; padding: 20px; margin-bottom: 15px; border-radius: 12px; border: 1px solid #e2e8f0; border-left: 4px solid #003058; }
+        .question-form { background: #f8fafc; padding: 25px; margin-bottom: 20px; border-radius: 20px; border: 1px solid #e2e8f0; transition: 0.3s; }
+        .question-form:focus-within { border-color: #cbd5e1; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
         
         .ranking-container { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
-        .card-premium-list { transition: all 0.2s ease; }
-        .card-premium-list:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.08) !important; }
+        .card-premium-list { background: #fff; border-radius: 16px; padding: 15px 20px; margin-bottom: 12px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; transition: transform 0.2s; position: relative; overflow: hidden; }
+        .card-premium-list::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; }
+        .card-premium-list.pending::before { background: #f59e0b; }
+        .card-premium-list.success::before { background: #10b981; }
+        .card-premium-list:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
         
-        .border-success { border-left-color: #10b981 !important; }
-        .border-pending { border-left-color: #f59e0b !important; }
-        .bg-success { background: #10b981 !important; }
-        .bg-pending { background: #f59e0b !important; }
-        .text-success { color: #10b981 !important; }
-        .text-pending { color: #f59e0b !important; }
+        .badge { padding: 6px 12px; border-radius: 10px; font-size: 11px; font-weight: 800; display: inline-block; white-space: nowrap; }
+        .badge.pending { background: #fef3c7; color: #d97706; }
+        .badge.success { background: #d1fae5; color: #059669; }
 
         /* Modal Styles */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,48,88,0.7); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(4px); }
-        .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 15px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(8px); }
+        .modal-content { background: #fff; width: 90%; max-width: 650px; border-radius: 24px; padding: 35px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
         
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
@@ -57,47 +66,49 @@
     <!-- MODAL IMPORTAÇÃO -->
     <div id="modal-import" class="modal-overlay">
         <div class="modal-content">
-            <h3 style="color:#003058; margin-top:0; font-weight: 800;"><i class="fa-solid fa-file-import"></i> Importar Atividade</h3>
-            <p style="font-size:13px; color:#64748b;">Cole o texto gerado pela IA (questões, alternativas e gabarito).</p>
-            <textarea id="texto-importar" class="input-premium" style="height:250px; resize:none; margin-top:10px;" placeholder="Ex: 
+            <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> Importar com IA</h3>
+            <p style="font-size:14px; color:#64748b; margin-bottom: 20px;">Cole o texto gerado pela Inteligência Artificial abaixo (questões, alternativas e correct answer).</p>
+            <textarea id="texto-importar" class="input-premium" style="height:250px; resize:none; font-family: monospace; font-size: 13px;" placeholder="Ex: 
 1) The cat ___ on the table.
 a) is
 b) are
 c) am
 correct answer: a" autocomplete="off"></textarea>
-            <div style="display:flex; gap:10px; margin-top:15px;">
-                <button class="btn-premium" onclick="processarImportacao()" style="padding: 12px; flex: 1;">PROCESSAR</button>
-                <button class="btn-premium" onclick="document.getElementById('modal-import').style.display='none'" style="padding: 12px; flex: 1; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;">CANCELAR</button>
+            <div style="display:flex; gap:15px; margin-top:20px;">
+                <button class="btn-modern btn-gradient" onclick="processarImportacao()" style="flex: 2;">PROCESSAR E PREENCHER</button>
+                <button class="btn-modern btn-outline" onclick="document.getElementById('modal-import').style.display='none'" style="flex: 1;">CANCELAR</button>
             </div>
         </div>
     </div>
 
     <div class="col-left">
         <!-- ÁREA DE GERAÇÃO E QR CODE -->
-        <div class="card-box" style="text-align: center; border-top: 5px solid #003058;">
-            <button id="btnGerarSessao" class="btn-premium" style="width: auto; padding: 14px 28px; font-size: 15px; background-color: #10b981;">
-                <i class="fa-solid fa-cloud-arrow-up"></i> SALVAR QUESTÕES E GERAR SESSÃO
+        <div class="card-box" style="text-align: center;">
+            <button id="btnGerarSessao" class="btn-modern btn-success">
+                <i class="fa-solid fa-rocket"></i> PUBLISH SESSION & GET QR CODE
             </button>
             
-            <div id="qrCodeDisplay" style="display: none; flex-direction: column; align-items: center; margin-top: 25px;">
-                <p style="font-weight: 800; color: #003058; margin-bottom: 15px; text-transform: uppercase; font-size: 18px;">Scan to Join:</p>
-                <img id="qrImage" src="" alt="QR Code" style="border-radius: 12px; border: 5px solid #003058; box-shadow: 0 8px 24px rgba(0,0,0,0.15); width: 250px; height: 250px;">
-                <p style="font-size: 12px; color: #64748b; font-weight: 800; margin-top: 15px; background: #f8fafc; padding: 8px 16px; border-radius: 20px; border: 1px solid #e2e8f0;">SESSION ID: <span id="sessaoIdDisplay" style="color: #003058;"></span></p>
+            <div id="qrCodeDisplay" style="display: none; flex-direction: column; align-items: center; margin-top: 30px;">
+                <p style="font-weight: 800; color: #0f172a; margin-bottom: 20px; text-transform: uppercase; font-size: 16px; letter-spacing: 1px;">Ask students to scan:</p>
+                <img id="qrImage" src="" alt="QR Code" style="border-radius: 20px; border: 8px solid #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 220px; height: 220px;">
+                <p style="font-size: 13px; color: #64748b; font-weight: 800; margin-top: 25px; background: #f1f5f9; padding: 12px 24px; border-radius: 12px; letter-spacing: 0.5px;">ROOM ID: <span id="sessaoIdDisplay" style="color: #8b5cf6;"></span></p>
             </div>
         </div>
 
         <!-- FORMULÁRIO DE CRIAÇÃO DAS QUESTÕES -->
         <div class="card-box" id="areaCriacaoQuestoes">
-            <h2 style="margin: 0; font-size: 18px; margin-bottom: 15px;"><i class="fa-solid fa-pen-to-square"></i> Criar Questões</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2><i class="fa-solid fa-layer-group" style="color: #6366f1;"></i> Builder</h2>
+            </div>
             
             <!-- Campo de Título e Botões de Ação -->
-            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 20px;">
-                <input type="text" id="titulo-gram" class="input-premium" placeholder="Tema ou Título da Atividade..." style="flex: 1; margin-bottom: 0;" autocomplete="off">
-                <button class="btn-action" id="btn-prompt-gram" onclick="copiarPrompt(event)">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> PROMPT
+            <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 30px; background: #f8fafc; padding: 15px; border-radius: 16px;">
+                <input type="text" id="titulo-gram" class="input-premium" placeholder="Lesson Topic (e.g. Present Simple)" style="flex: 1; margin-bottom: 0; background: #fff;" autocomplete="off">
+                <button class="btn-action" id="btn-prompt-gram" onclick="copiarPrompt(event)" style="background: #e0e7ff; color: #4f46e5;">
+                    <i class="fa-solid fa-copy"></i> COPY AI PROMPT
                 </button>
-                <button class="btn-action" style="background: #10b981;" onclick="document.getElementById('modal-import').style.display='flex'">
-                    <i class="fa-solid fa-paste"></i> IMPORTAR DA IA
+                <button class="btn-action" style="background: #dbeafe; color: #4338ca;" onclick="document.getElementById('modal-import').style.display='flex'">
+                    <i class="fa-solid fa-file-import"></i> IMPORT TEXT
                 </button>
             </div>
 
@@ -109,29 +120,33 @@ correct answer: a" autocomplete="off"></textarea>
         <div class="stats-container">
             <div class="stat-box">
                 <div class="stat-number" id="countLogados">0</div>
-                <div class="stat-label">Students Logged In</div>
+                <div class="stat-label">Connected</div>
             </div>
-            <div class="stat-box" style="border-bottom: 4px solid #10b981;">
+            <div class="stat-box success">
                 <div class="stat-number" id="countEntregues">0</div>
-                <div class="stat-label">Activities Submitted</div>
+                <div class="stat-label">Submitted</div>
             </div>
         </div>
         
-        <h2 style="font-size: 18px;"><i class="fa-solid fa-ranking-star"></i> Live Ranking</h2>
-        <div class="ranking-container" id="rankingList">
-            <p style="text-align: center; color: #94a3b8; font-weight: 600; margin-top: 40px;">Waiting for a session to start...</p>
+        <div class="card-box" style="flex-grow: 1; display: flex; flex-direction: column; padding: 25px 20px;">
+            <h2 style="font-size: 18px; margin-bottom: 20px;"><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> Live Leaderboard</h2>
+            <div class="ranking-container" id="rankingList">
+                <div style="text-align: center; color: #94a3b8; margin-top: 50px;">
+                    <i class="fa-solid fa-satellite-dish" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
+                    <p style="font-weight: 600; font-size: 14px;">Waiting for a session to start...</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- FUNÇÕES DE IMPORTAÇÃO E PROMPT -->
     <script>
-        // Função para gerar e copiar o prompt de instrução
+        // PROMPT & IMPORT LOGIC
         window.copiarPrompt = function(event) {
             const inputTitulo = document.getElementById('titulo-gram');
-            const titulo = inputTitulo.value.trim() || 'Gramática Geral';
+            const titulo = inputTitulo.value.trim() || 'Grammar Rules';
             const btn = event.currentTarget;
             
-            const prompt = "Crie uma atividade.\n\n" +
+            const prompt = "Crie uma atividade de gramática em inglês.\n\n" +
                            "Regras importantes:\n\n" +
                            "A atividade deve ter 10 questões.\n" +
                            "Não use números dentro das frases.\n" +
@@ -145,33 +160,30 @@ correct answer: a" autocomplete="off"></textarea>
                            "correct answer: seguido APENAS pela letra (a, b ou c).\n\n" +
                            "Não escreva explicações.\n\n" +
                            "Tema da atividade: [" + titulo + "]\n\n" +
-                           "Regra de idioma:\n" +
-                           "Se o tema estiver em inglês, escreva tudo em inglês.\n" +
-                           "Se o tema estiver em espanhol, escreva tudo em espanhol.\n\n" +
                            "Use apenas inglês ou espanhol. Não use português.";
 
             navigator.clipboard.writeText(prompt).then(() => {
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIADO!';
-                btn.style.background = '#10b981';
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED!';
+                btn.style.background = '#d1fae5';
+                btn.style.color = '#059669';
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.background = '#003058';
+                    btn.innerHTML = originalHTML;
+                    btn.style.background = '#e0e7ff';
+                    btn.style.color = '#4f46e5';
                 }, 2000);
             });
         };
 
-        // Reset do visual do botão caso apague o título
         document.addEventListener('input', (e) => {
             if (e.target.id === 'titulo-gram') {
                 const btnPrompt = document.getElementById('btn-prompt-gram');
                 if (btnPrompt && e.target.value.trim() === "") {
-                    btnPrompt.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> PROMPT';
+                    btnPrompt.innerHTML = '<i class="fa-solid fa-copy"></i> COPY AI PROMPT';
                 }
             }
         });
 
-        // Função que processa o texto colado
         window.processarImportacao = function() {
             const texto = document.getElementById('texto-importar').value;
             if(!texto.trim()) return;
@@ -180,10 +192,8 @@ correct answer: a" autocomplete="off"></textarea>
             const partes = textoLimpo.split(/--- EXPLICAÇÃO ---/i);
             const corpoQuestoes = partes[0];
 
-            // Separa os blocos usando a regex
             const blocos = corpoQuestoes.split(/\n\s*(?=\d+[\)\.\-\s])|(?<=\n|^)\s*(?=\d+[\)\.\-\s])/).filter(b => b.trim().length > 5);
 
-            // Limpar campos antes de importar
             for(let i=1; i<=10; i++) {
                 if(document.getElementById(`q-${i}`)) document.getElementById(`q-${i}`).value = "";
                 if(document.getElementById(`optA-${i}`)) document.getElementById(`optA-${i}`).value = "";
@@ -226,11 +236,10 @@ correct answer: a" autocomplete="off"></textarea>
             });
 
             document.getElementById('modal-import').style.display = 'none';
-            alert("Questões importadas com sucesso!");
         };
     </script>
 
-    <!-- INTEGRAÇÃO COM FIREBASE -->
+    <!-- FIREBASE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -254,36 +263,44 @@ correct answer: a" autocomplete="off"></textarea>
 
         let unsubscribe = null;
 
-        // GERA OS 10 CAMPOS DE QUESTÕES NO HTML
         const containerForm = document.getElementById('formQuestoesContainer');
         for (let i = 1; i <= 10; i++) {
             containerForm.innerHTML += `
                 <div class="question-form">
-                    <h4 style="margin-top:0; color:#003058; font-weight: 800;">Questão ${i}</h4>
-                    <input type="text" id="q-${i}" class="input-premium" placeholder="Digite o enunciado da questão..." autocomplete="off">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                        <h4 style="margin:0; color:#0f172a; font-weight: 800; font-size:16px;">Question ${i}</h4>
+                        <div style="display:flex; align-items:center; gap: 8px;">
+                            <span style="font-size: 11px; font-weight: 800; color: #8b5cf6; text-transform: uppercase;">CORRECT:</span>
+                            <select id="ans-${i}" class="input-premium" style="width: auto; margin: 0; padding: 6px 12px; background: #f3e8ff; border-color: #d8b4fe; color: #6d28d9;" autocomplete="off">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="text" id="q-${i}" class="input-premium" placeholder="Sentence..." autocomplete="off">
                     
                     <div style="display:flex; gap:10px;">
-                        <input type="text" id="optA-${i}" class="input-premium" placeholder="Alternativa A" autocomplete="off">
-                        <input type="text" id="optB-${i}" class="input-premium" placeholder="Alternativa B" autocomplete="off">
-                        <input type="text" id="optC-${i}" class="input-premium" placeholder="Alternativa C" autocomplete="off">
-                    </div>
-                    
-                    <div style="display:flex; align-items:center; gap: 10px; margin-top: 5px;">
-                        <span style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">Gabarito:</span>
-                        <select id="ans-${i}" class="input-premium" style="width: auto; margin-bottom: 0; padding: 8px;" autocomplete="off">
-                            <option value="A">Alternativa A</option>
-                            <option value="B">Alternativa B</option>
-                            <option value="C">Alternativa C</option>
-                        </select>
+                        <div style="flex:1; position:relative;">
+                            <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-weight:800; color:#cbd5e1; font-size:12px;">A</span>
+                            <input type="text" id="optA-${i}" class="input-premium" placeholder="Option" style="padding-left:35px; margin:0;" autocomplete="off">
+                        </div>
+                        <div style="flex:1; position:relative;">
+                            <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-weight:800; color:#cbd5e1; font-size:12px;">B</span>
+                            <input type="text" id="optB-${i}" class="input-premium" placeholder="Option" style="padding-left:35px; margin:0;" autocomplete="off">
+                        </div>
+                        <div style="flex:1; position:relative;">
+                            <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-weight:800; color:#cbd5e1; font-size:12px;">C</span>
+                            <input type="text" id="optC-${i}" class="input-premium" placeholder="Option" style="padding-left:35px; margin:0;" autocomplete="off">
+                        </div>
                     </div>
                 </div>
             `;
         }
 
-        // AÇÃO DE SALVAR QUESTÕES E GERAR QR CODE
         document.getElementById('btnGerarSessao').addEventListener('click', async () => {
             const btn = document.getElementById('btnGerarSessao');
-            const tituloSessao = document.getElementById('titulo-gram').value.trim() || "Atividade Sem Título";
+            const tituloSessao = document.getElementById('titulo-gram').value.trim() || "Grammar Session";
             
             let questoesSalvas = [];
             let temQuestaoInvalida = false;
@@ -295,27 +312,20 @@ correct answer: a" autocomplete="off"></textarea>
                 const optC = document.getElementById(`optC-${i}`).value.trim();
                 const answer = document.getElementById(`ans-${i}`).value;
 
-                if (!enunciado || !optA || !optB || !optC) {
-                    temQuestaoInvalida = true;
-                }
+                if (!enunciado || !optA || !optB || !optC) temQuestaoInvalida = true;
 
-                questoesSalvas.push({
-                    q: enunciado,
-                    opts: { A: optA, B: optB, C: optC },
-                    answer: answer
-                });
+                questoesSalvas.push({ q: enunciado, opts: { A: optA, B: optB, C: optC }, answer: answer });
             }
 
             if (temQuestaoInvalida) {
-                alert("Por favor, preencha todos os campos das 10 questões antes de salvar (Ou importe via IA).");
+                alert("Por favor, preencha todos os campos das 10 questões.");
                 return;
             }
 
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> SALVANDO...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> PUBLISHING...';
             btn.style.pointerEvents = 'none';
 
             try {
-                // Adicionando o título da atividade na criação da sessão
                 const sessaoRef = await addDoc(collection(db, "sessoes_ativas"), {
                     titulo: tituloSessao,
                     dataCriacao: new Date(),
@@ -337,12 +347,11 @@ correct answer: a" autocomplete="off"></textarea>
             } catch (e) {
                 console.error("Erro ao gerar sessão:", e);
                 alert("Falha ao criar sala.");
-                btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> TENTAR NOVAMENTE';
+                btn.innerHTML = '<i class="fa-solid fa-rocket"></i> PUBLISH SESSION & GET QR CODE';
                 btn.style.pointerEvents = 'auto';
             }
         });
 
-        // MONITORAMENTO EM TEMPO REAL
         function iniciarMonitoramento(idSessao) {
             if (unsubscribe) unsubscribe();
 
@@ -354,14 +363,17 @@ correct answer: a" autocomplete="off"></textarea>
                 const rankingList = document.getElementById('rankingList');
                 
                 if (snapshot.empty) {
-                    rankingList.innerHTML = '<p style="text-align: center; color: #94a3b8; font-weight: 600; margin-top: 40px;">Nenhum aluno entrou ainda...</p>';
+                    rankingList.innerHTML = `
+                        <div style="text-align: center; color: #94a3b8; margin-top: 50px;">
+                            <i class="fa-solid fa-satellite-dish" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <p style="font-weight: 600; font-size: 14px;">Waiting for students to join...</p>
+                        </div>`;
                     document.getElementById('countLogados').innerText = 0;
                     document.getElementById('countEntregues').innerText = 0;
                     return;
                 }
 
                 rankingList.innerHTML = ''; 
-
                 let alunos = [];
                 snapshot.forEach((doc) => { alunos.push({ id: doc.id, ...doc.data() }); });
                 alunos.sort((a, b) => b.score - a.score);
@@ -371,27 +383,18 @@ correct answer: a" autocomplete="off"></textarea>
                     const isEntregue = data.status === "entregue";
                     if (isEntregue) entregues++;
 
-                    const borderClass = isEntregue ? "border-success" : "border-pending";
-                    const bgClass = isEntregue ? "bg-success" : "bg-pending";
-                    const textClass = isEntregue ? "text-success" : "text-pending";
-                    const iconClass = isEntregue ? "fa-face-smile" : "fa-face-rolling-eyes";
-                    
-                    const statusText = isEntregue ? "ENTREGUE" : "FAZENDO...";
-                    const scoreDisplay = isEntregue ? `${data.score}/10` : `- / -`;
+                    const baseClass = isEntregue ? "success" : "pending";
+                    const statusText = isEntregue ? "Done" : "Working";
+                    const scoreDisplay = isEntregue ? `${data.score}/10` : `-`;
 
                     rankingList.innerHTML += `
-                        <div class="card-premium-list ${borderClass}" style="margin-bottom:10.5px; padding:0 15px; border-left:4px solid; background:#fff; border-radius:8px; display:flex; align-items:center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); height: 45px; box-sizing: border-box;">
-                            <div style="flex: 2; display: flex; align-items: center; gap: 10px; overflow: hidden;">
-                                <i class="fa-solid ${iconClass} ${textClass}" style="font-size: 22px; flex-shrink: 0;"></i>
-                                <h3 style="margin:0; color:#003058; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-transform: uppercase;">${data.name}</h3>
+                        <div class="card-premium-list ${baseClass}">
+                            <div style="flex: 1; overflow: hidden; padding-left: 10px;">
+                                <h3 style="margin:0; color:#0f172a; font-size:14px; font-weight: 800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${data.name}</h3>
                             </div>
-                            <div style="flex: 1; text-align:center; font-size:11px; font-weight:800; white-space:nowrap; padding:0 5px;" class="${textClass}">
-                                ${statusText}
-                            </div>
-                            <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
-                                <span class="${bgClass}" style="font-size:11px; padding:4px 12px; color:white; border-radius:6px; font-weight:800; white-space:nowrap;">
-                                    NOTA: ${scoreDisplay}
-                                </span>
+                            <div style="flex: 1; text-align:right;">
+                                <span class="badge ${baseClass}" style="margin-right: 10px;">${statusText}</span>
+                                <span style="font-size: 16px; font-weight: 800; color: #0f172a;">${scoreDisplay}</span>
                             </div>
                         </div>
                     `;
