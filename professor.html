@@ -49,15 +49,10 @@
         .badge.pending { background: #f1f5f9; color: #64748b; }
         .badge.done { background: #f3e8ff; color: #8b5cf6; }
 
+        /* Estilo dos Modais */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.6); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(5px); }
-        .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
         
-        .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; }
-        .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 10px 18px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
-        .btn-nav:hover:not(:disabled) { background: #f1f5f9; border-color: #cbd5e1; }
-        .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
-        .page-indicator { font-weight: 800; color: #8b5cf6; font-size: 14px; background: #f3e8ff; padding: 6px 16px; border-radius: 20px; }
-
         /* Centralização perfeita do QR Code */
         #qrCodeContainer {
             display: none; 
@@ -70,6 +65,12 @@
             height: 100%;
         }
 
+        .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 10px 18px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
+        .btn-nav:hover:not(:disabled) { background: #f1f5f9; border-color: #cbd5e1; }
+        .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+        .page-indicator { font-weight: 800; color: #8b5cf6; font-size: 14px; background: #f3e8ff; padding: 6px 16px; border-radius: 20px; }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -78,9 +79,19 @@
 </head>
 <body>
 
-    <!-- MODAL IMPORTAÇÃO -->
+    <!-- ALERTA CUSTOMIZADO (Substitui o alert padrão) -->
+    <div id="custom-alert-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px;">
+            <div id="alert-icon" style="margin-bottom: 15px;"></div>
+            <h3 id="alert-title" style="color: #0f172a; margin-top: 0; font-weight: 800; font-size: 20px;">Aviso</h3>
+            <p id="alert-msg" style="color: #64748b; font-size: 14px; line-height: 1.5; margin-bottom: 25px;"></p>
+            <button class="btn-gradient" onclick="fecharAlertaCustomizado()" style="padding: 12px;">ENTENDI</button>
+        </div>
+    </div>
+
+    <!-- MODAL IMPORTAÇÃO DA IA -->
     <div id="modal-import" class="modal-overlay">
-        <div class="modal-content">
+        <div class="modal-content" style="text-align: left;">
             <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> Importar com IA
             </h3>
@@ -101,13 +112,14 @@ correct answer: a" autocomplete="off"></textarea>
     <div class="col-left">
         <!-- ÁREA DO QR CODE GERADO -->
         <div class="card-box" id="qrCodeContainer">
-            <p style="font-weight: 800; color: #0f172a; margin-bottom: 25px; text-transform: uppercase; font-size: 20px; letter-spacing: 1px;">Sessão Ativa! <br><span style="font-size: 14px; color: #64748b;">Peça aos alunos para escanearem o código:</span></p>
+            <h2 style="font-size: 26px; color: #0f172a; margin-bottom: 10px;"><i class="fa-solid fa-tower-broadcast" style="color: #8b5cf6;"></i> Sessão Ativa!</h2>
+            <p style="font-weight: 600; color: #64748b; margin-top: 0; margin-bottom: 30px; font-size: 16px;">Peça aos alunos para escanearem o código abaixo:</p>
             
-            <img id="qrImage" src="" alt="QR Code" style="border-radius: 16px; border: 6px solid #f8fafc; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2); width: 280px; height: 280px; margin: 0 auto;">
+            <img id="qrImage" src="" alt="QR Code" style="border-radius: 20px; border: 8px solid #f8fafc; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2); width: 280px; height: 280px; margin: 0 auto;">
             
-            <div style="margin-top: 30px;">
-                <p style="font-size: 14px; color: #8b5cf6; font-weight: 800; background: #f3e8ff; padding: 15px 30px; border-radius: 12px; display: inline-block; margin: 0;">
-                    ID DA SALA: <span id="sessaoIdDisplay" style="color: #0f172a; font-size: 16px; margin-left: 5px;"></span>
+            <div style="margin-top: 40px;">
+                <p style="font-size: 14px; color: #8b5cf6; font-weight: 800; background: #f3e8ff; padding: 15px 30px; border-radius: 15px; display: inline-block; margin: 0;">
+                    ID DA SALA: <span id="sessaoIdDisplay" style="color: #0f172a; font-size: 18px; margin-left: 8px;"></span>
                 </p>
             </div>
         </div>
@@ -162,7 +174,7 @@ correct answer: a" autocomplete="off"></textarea>
         </div>
         
         <div class="card-box" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px;">
-            <h2><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> Ranking Ao Vivo</h2>
+            <h2><i class="fa-solid fa-trophy" style="color: #8b5cf6;"></i> Ranking Ao Vivo</h2>
             <div class="ranking-container" id="rankingList">
                 <div style="text-align: center; color: #94a3b8; margin-top: 60px;">
                     <i class="fa-solid fa-satellite-dish" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i>
@@ -174,6 +186,27 @@ correct answer: a" autocomplete="off"></textarea>
 
     <!-- LÓGICA DE INTERFACE, PROMPT E IMPORTAÇÃO -->
     <script>
+        // Função do Alerta Customizado
+        window.mostrarAlertaCustomizado = function(titulo, mensagem, tipo = 'error') {
+            document.getElementById('alert-title').innerText = titulo;
+            document.getElementById('alert-msg').innerText = mensagem;
+            
+            const icon = document.getElementById('alert-icon');
+            if(tipo === 'error') {
+                icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 45px;"></i>';
+            } else if (tipo === 'success') {
+                icon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 45px;"></i>';
+            } else {
+                icon.innerHTML = '<i class="fa-solid fa-circle-info" style="color: #3b82f6; font-size: 45px;"></i>';
+            }
+            
+            document.getElementById('custom-alert-modal').style.display = 'flex';
+        };
+
+        window.fecharAlertaCustomizado = function() {
+            document.getElementById('custom-alert-modal').style.display = 'none';
+        };
+
         let questaoAtualProf = 1;
         
         function renderizarFormularios() {
@@ -281,7 +314,7 @@ correct answer: a" autocomplete="off"></textarea>
             const blocos = textoLimpo.split(/(?:^|\n)\s*(?:10|[1-9])[\)\.]\s*/).filter(b => b.trim().length > 5);
 
             if(blocos.length === 0) {
-                alert("Não foi possível identificar as questões. Verifique se o texto possui as numerações (ex: 1) , 2) ).");
+                mostrarAlertaCustomizado("Erro na Importação", "Não foi possível identificar as questões. Verifique se o texto possui as numerações (ex: 1) , 2) ).", "error");
                 return;
             }
 
@@ -327,7 +360,7 @@ correct answer: a" autocomplete="off"></textarea>
             document.getElementById(`qform-${questaoAtualProf}`).style.display = 'block';
             atualizarBotoesNav();
 
-            alert("Questões importadas com sucesso! Navegue pelas setas para conferir as 10 páginas.");
+            mostrarAlertaCustomizado("Importação Concluída", "Questões importadas com sucesso! Navegue pelas setas para conferir as 10 páginas.", "success");
         };
     </script>
 
@@ -349,8 +382,7 @@ correct answer: a" autocomplete="off"></textarea>
         const db = getFirestore(app);
 
         // ==============================================================================
-        // ATENÇÃO: COLOQUE AQUI O SEU LINK EXATO DE ONDE A TELA DO ALUNO ESTÁ HOSPEDADA!
-        // NÃO ESQUEÇA DA BARRA / NO FINAL DO LINK.
+        // LINK OFICIAL E REAL DO ALUNO CORRIGIDO. 
         const urlBaseAluno = "https://rafaelalvesbs.github.io/Atividades-Online-Aluno/"; 
         // ==============================================================================
 
@@ -379,7 +411,8 @@ correct answer: a" autocomplete="off"></textarea>
             }
 
             if (erroNaQuestao !== -1) {
-                alert(`Atenção: A Questão ${erroNaQuestao} não foi totalmente preenchida! Navegue pelas setas abaixo para arrumar.`);
+                mostrarAlertaCustomizado("Atenção", `A Questão ${erroNaQuestao} não foi totalmente preenchida! Completos os campos para poder gerar.`, "error");
+                
                 document.getElementById(`qform-${questaoAtualProf}`).style.display = 'none';
                 questaoAtualProf = erroNaQuestao;
                 document.getElementById(`qform-${questaoAtualProf}`).style.display = 'block';
@@ -405,7 +438,6 @@ correct answer: a" autocomplete="off"></textarea>
                 document.getElementById('qrImage').src = qrUrl;
                 document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId;
                 
-                // Transição suave para esconder form e exibir o QR Code centralizado
                 document.getElementById('areaCriacaoQuestoes').style.display = 'none';
                 document.getElementById('qrCodeContainer').style.display = 'flex';
                 
@@ -413,7 +445,7 @@ correct answer: a" autocomplete="off"></textarea>
 
             } catch (e) {
                 console.error("Erro ao gerar sessão:", e);
-                alert("Falha ao criar sala. Verifique a conexão.");
+                mostrarAlertaCustomizado("Erro de Conexão", "Falha ao criar sala. Verifique sua internet.", "error");
                 btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> PUBLICAR ATIVIDADE E GERAR QR CODE';
                 btn.style.pointerEvents = 'auto';
             }
