@@ -58,6 +58,18 @@
         .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
         .page-indicator { font-weight: 800; color: #8b5cf6; font-size: 14px; background: #f3e8ff; padding: 6px 16px; border-radius: 20px; }
 
+        /* Centralização perfeita do QR Code */
+        #qrCodeContainer {
+            display: none; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            border-top: 5px solid #8b5cf6;
+            padding: 40px 20px;
+            height: 100%;
+        }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -88,10 +100,16 @@ correct answer: a" autocomplete="off"></textarea>
 
     <div class="col-left">
         <!-- ÁREA DO QR CODE GERADO -->
-        <div class="card-box" id="qrCodeContainer" style="display: none; text-align: center; border-top: 5px solid #8b5cf6;">
-            <p style="font-weight: 800; color: #0f172a; margin-bottom: 20px; text-transform: uppercase; font-size: 18px; letter-spacing: 1px;">Sessão Ativa! Peça aos alunos para escanear:</p>
-            <img id="qrImage" src="" alt="QR Code" style="border-radius: 16px; border: 6px solid #f8fafc; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2); width: 250px; height: 250px;">
-            <p style="font-size: 13px; color: #8b5cf6; font-weight: 800; margin-top: 25px; background: #f3e8ff; padding: 12px 24px; border-radius: 12px; display: inline-block;">ID DA SALA: <span id="sessaoIdDisplay" style="color: #0f172a;"></span></p>
+        <div class="card-box" id="qrCodeContainer">
+            <p style="font-weight: 800; color: #0f172a; margin-bottom: 25px; text-transform: uppercase; font-size: 20px; letter-spacing: 1px;">Sessão Ativa! <br><span style="font-size: 14px; color: #64748b;">Peça aos alunos para escanearem o código:</span></p>
+            
+            <img id="qrImage" src="" alt="QR Code" style="border-radius: 16px; border: 6px solid #f8fafc; box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2); width: 280px; height: 280px; margin: 0 auto;">
+            
+            <div style="margin-top: 30px;">
+                <p style="font-size: 14px; color: #8b5cf6; font-weight: 800; background: #f3e8ff; padding: 15px 30px; border-radius: 12px; display: inline-block; margin: 0;">
+                    ID DA SALA: <span id="sessaoIdDisplay" style="color: #0f172a; font-size: 16px; margin-left: 5px;"></span>
+                </p>
+            </div>
         </div>
 
         <!-- FORMULÁRIO DE CRIAÇÃO -->
@@ -107,7 +125,7 @@ correct answer: a" autocomplete="off"></textarea>
                     <i class="fa-solid fa-copy"></i> COPIAR PROMPT
                 </button>
                 <button class="btn-action highlight" onclick="document.getElementById('modal-import').style.display='flex'">
-                    <i class="fa-solid fa-paste"></i> IMPORTAR
+                    <i class="fa-solid fa-paste"></i> IMPORTAR DA IA
                 </button>
             </div>
 
@@ -309,7 +327,7 @@ correct answer: a" autocomplete="off"></textarea>
             document.getElementById(`qform-${questaoAtualProf}`).style.display = 'block';
             atualizarBotoesNav();
 
-            alert("Questões importadas com sucesso!");
+            alert("Questões importadas com sucesso! Navegue pelas setas para conferir as 10 páginas.");
         };
     </script>
 
@@ -330,9 +348,11 @@ correct answer: a" autocomplete="off"></textarea>
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ==========================================
-        const urlBaseAluno = "https://rafaelalvesbs.github.io/NOME_DO_REPO_DO_ALUNO/";
-        // ==========================================
+        // ==============================================================================
+        // ATENÇÃO: COLOQUE AQUI O SEU LINK EXATO DE ONDE A TELA DO ALUNO ESTÁ HOSPEDADA!
+        // NÃO ESQUEÇA DA BARRA / NO FINAL DO LINK.
+        const urlBaseAluno = "https://rafaelalvesbs.github.io/Atividades-Online-Aluno/"; 
+        // ==============================================================================
 
         let unsubscribe = null;
 
@@ -343,7 +363,6 @@ correct answer: a" autocomplete="off"></textarea>
             let questoesSalvas = [];
             let erroNaQuestao = -1;
 
-            // Validação Forte
             for (let i = 1; i <= 10; i++) {
                 const enunciado = document.getElementById(`q-${i}`).value.trim();
                 const optA = document.getElementById(`optA-${i}`).value.trim();
@@ -360,8 +379,7 @@ correct answer: a" autocomplete="off"></textarea>
             }
 
             if (erroNaQuestao !== -1) {
-                alert(`Atenção: A Questão ${erroNaQuestao} não foi totalmente preenchida! Navegue até ela e complete os campos.`);
-                // Navega automaticamente para a questão com erro
+                alert(`Atenção: A Questão ${erroNaQuestao} não foi totalmente preenchida! Navegue pelas setas abaixo para arrumar.`);
                 document.getElementById(`qform-${questaoAtualProf}`).style.display = 'none';
                 questaoAtualProf = erroNaQuestao;
                 document.getElementById(`qform-${questaoAtualProf}`).style.display = 'block';
@@ -387,9 +405,9 @@ correct answer: a" autocomplete="off"></textarea>
                 document.getElementById('qrImage').src = qrUrl;
                 document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId;
                 
-                // Oculta form, exibe QR Code
+                // Transição suave para esconder form e exibir o QR Code centralizado
                 document.getElementById('areaCriacaoQuestoes').style.display = 'none';
-                document.getElementById('qrCodeContainer').style.display = 'block';
+                document.getElementById('qrCodeContainer').style.display = 'flex';
                 
                 iniciarMonitoramento(sessaoAtualId);
 
@@ -422,7 +440,6 @@ correct answer: a" autocomplete="off"></textarea>
                 let alunos = [];
                 snapshot.forEach((doc) => { alunos.push({ id: doc.id, ...doc.data() }); });
                 
-                // Ordena por maior nota
                 alunos.sort((a, b) => b.score - a.score);
 
                 alunos.forEach((data) => {
