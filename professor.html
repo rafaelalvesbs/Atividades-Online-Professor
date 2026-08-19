@@ -18,7 +18,7 @@
         .btn-premium { width: 100%; padding: 16px; background-color: #003058; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.2s; letter-spacing: 0.5px; }
         .btn-premium:hover { background-color: #002244; transform: translateY(-2px); }
 
-        .btn-action { background: #003058; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 11px; padding: 10px 15px; transition: 0.2s; }
+        .btn-action { background: #003058; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 12px; padding: 12px 18px; transition: 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .btn-action:hover { opacity: 0.9; transform: scale(0.98); }
 
         .input-premium { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: #f8fafc; margin-bottom: 10px; font-family: inherit; color: #1e293b; box-sizing: border-box; outline: none; transition: 0.3s; }
@@ -64,7 +64,7 @@
 a) is
 b) are
 c) am
-correct answer: a"></textarea>
+correct answer: a" autocomplete="off"></textarea>
             <div style="display:flex; gap:10px; margin-top:15px;">
                 <button class="btn-premium" onclick="processarImportacao()" style="padding: 12px; flex: 1;">PROCESSAR</button>
                 <button class="btn-premium" onclick="document.getElementById('modal-import').style.display='none'" style="padding: 12px; flex: 1; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;">CANCELAR</button>
@@ -88,13 +88,19 @@ correct answer: a"></textarea>
 
         <!-- FORMULÁRIO DE CRIAÇÃO DAS QUESTÕES -->
         <div class="card-box" id="areaCriacaoQuestoes">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h2 style="margin: 0; font-size: 18px;"><i class="fa-solid fa-pen-to-square"></i> Criar Questões</h2>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn-action" onclick="copiarPrompt(event)"><i class="fa-solid fa-wand-magic-sparkles"></i> PROMPT</button>
-                    <button class="btn-action" style="background: #10b981;" onclick="document.getElementById('modal-import').style.display='flex'"><i class="fa-solid fa-paste"></i> IMPORTAR</button>
-                </div>
+            <h2 style="margin: 0; font-size: 18px; margin-bottom: 15px;"><i class="fa-solid fa-pen-to-square"></i> Criar Questões</h2>
+            
+            <!-- Campo de Título e Botões de Ação -->
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 20px;">
+                <input type="text" id="titulo-gram" class="input-premium" placeholder="Tema ou Título da Atividade..." style="flex: 1; margin-bottom: 0;" autocomplete="off">
+                <button class="btn-action" id="btn-prompt-gram" onclick="copiarPrompt(event)">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> PROMPT
+                </button>
+                <button class="btn-action" style="background: #10b981;" onclick="document.getElementById('modal-import').style.display='flex'">
+                    <i class="fa-solid fa-paste"></i> IMPORTAR DA IA
+                </button>
             </div>
+
             <div id="formQuestoesContainer"></div>
         </div>
     </div>
@@ -117,23 +123,32 @@ correct answer: a"></textarea>
         </div>
     </div>
 
-    <!-- FUNÇÕES DE IMPORTAÇÃO (Não usam módulos do Firebase) -->
+    <!-- FUNÇÕES DE IMPORTAÇÃO E PROMPT -->
     <script>
-        // Função para copiar o prompt de instrução
+        // Função para gerar e copiar o prompt de instrução
         window.copiarPrompt = function(event) {
+            const inputTitulo = document.getElementById('titulo-gram');
+            const titulo = inputTitulo.value.trim() || 'Gramática Geral';
             const btn = event.currentTarget;
-            const prompt = "Crie uma atividade de gramática em inglês.\n\n" +
+            
+            const prompt = "Crie uma atividade.\n\n" +
                            "Regras importantes:\n\n" +
                            "A atividade deve ter 10 questões.\n" +
                            "Não use números dentro das frases.\n" +
                            "Cada questão deve ter 3 alternativas (A, B, C).\n" +
-                           "Uma das três alternativas deve ser claramente correta. As outras duas incorretas.\n" +
+                           "Uma das três alternativas deve ser claramente correta de acordo com a frase. As outras duas devem ser plausíveis, mas incorretas.\n" +
                            "A resposta correta deve ser exatamente uma das três alternativas (a, b ou c).\n" +
-                           "Coloque TODAS as questões juntas dentro de UM ÚNICO bloco de texto.\n" +
+                           "Mostre as questões em texto normal.\n" +
+                           "Coloque TODAS as questões juntas dentro de UM ÚNICO bloco de código para que seja possível copiar tudo com um clique.\n" +
                            "Inclua a numeração das questões.\n" +
                            "Após cada questão, escreva:\n" +
                            "correct answer: seguido APENAS pela letra (a, b ou c).\n\n" +
-                           "Não escreva explicações extras.";
+                           "Não escreva explicações.\n\n" +
+                           "Tema da atividade: [" + titulo + "]\n\n" +
+                           "Regra de idioma:\n" +
+                           "Se o tema estiver em inglês, escreva tudo em inglês.\n" +
+                           "Se o tema estiver em espanhol, escreva tudo em espanhol.\n\n" +
+                           "Use apenas inglês ou espanhol. Não use português.";
 
             navigator.clipboard.writeText(prompt).then(() => {
                 const originalText = btn.innerHTML;
@@ -145,6 +160,16 @@ correct answer: a"></textarea>
                 }, 2000);
             });
         };
+
+        // Reset do visual do botão caso apague o título
+        document.addEventListener('input', (e) => {
+            if (e.target.id === 'titulo-gram') {
+                const btnPrompt = document.getElementById('btn-prompt-gram');
+                if (btnPrompt && e.target.value.trim() === "") {
+                    btnPrompt.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> PROMPT';
+                }
+            }
+        });
 
         // Função que processa o texto colado
         window.processarImportacao = function() {
@@ -245,7 +270,7 @@ correct answer: a"></textarea>
                     
                     <div style="display:flex; align-items:center; gap: 10px; margin-top: 5px;">
                         <span style="font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">Gabarito:</span>
-                        <select id="ans-${i}" class="input-premium" style="width: auto; margin-bottom: 0; padding: 8px;">
+                        <select id="ans-${i}" class="input-premium" style="width: auto; margin-bottom: 0; padding: 8px;" autocomplete="off">
                             <option value="A">Alternativa A</option>
                             <option value="B">Alternativa B</option>
                             <option value="C">Alternativa C</option>
@@ -258,6 +283,7 @@ correct answer: a"></textarea>
         // AÇÃO DE SALVAR QUESTÕES E GERAR QR CODE
         document.getElementById('btnGerarSessao').addEventListener('click', async () => {
             const btn = document.getElementById('btnGerarSessao');
+            const tituloSessao = document.getElementById('titulo-gram').value.trim() || "Atividade Sem Título";
             
             let questoesSalvas = [];
             let temQuestaoInvalida = false;
@@ -289,7 +315,9 @@ correct answer: a"></textarea>
             btn.style.pointerEvents = 'none';
 
             try {
+                // Adicionando o título da atividade na criação da sessão
                 const sessaoRef = await addDoc(collection(db, "sessoes_ativas"), {
+                    titulo: tituloSessao,
                     dataCriacao: new Date(),
                     status: "aberta",
                     questoes: questoesSalvas
