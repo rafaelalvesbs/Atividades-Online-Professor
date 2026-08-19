@@ -30,22 +30,25 @@
         .input-premium { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 14px; background: #fff; margin-bottom: 12px; font-family: inherit; color: #0f172a; box-sizing: border-box; outline: none; transition: 0.3s; font-weight: 600; }
         .input-premium:focus { border-color: #8b5cf6; box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1); }
 
-        .stats-container { display: flex; gap: 15px; margin-bottom: 20px; }
-        .stat-box { flex: 1; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; text-align: center; position: relative; overflow: hidden; }
+        .stats-container { display: flex; gap: 15px; margin-bottom: 20px; flex-shrink: 0; }
+        .stat-box { flex: 1; background: white; padding: 15px 20px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; text-align: center; position: relative; overflow: hidden; }
         .stat-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: #e2e8f0; }
         .stat-box.active::before { background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
-        .stat-number { font-size: 36px; font-weight: 800; color: #0f172a; line-height: 1; margin-bottom: 5px; }
-        .stat-label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-number { font-size: 32px; font-weight: 800; color: #0f172a; line-height: 1; margin-bottom: 5px; }
+        .stat-label { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .question-form { background: #fff; padding: 0; border-radius: 0; border: none; }
         
+        /* Container do Ranking e Rolagem */
         .ranking-container { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
-        .card-premium-list { background: #fff; border-radius: 14px; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-        .card-premium-list::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: #e2e8f0; }
-        .card-premium-list.done::before { background: linear-gradient(180deg, #3b82f6, #8b5cf6); }
-        .card-premium-list:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
         
-        .badge { padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; display: inline-block; white-space: nowrap; text-transform: uppercase; }
+        /* Cards dos alunos MAIS COMPACTOS */
+        .card-premium-list { background: #fff; border-radius: 10px; padding: 10px 15px; margin-bottom: 8px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .card-premium-list::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #e2e8f0; }
+        .card-premium-list.done::before { background: linear-gradient(180deg, #3b82f6, #8b5cf6); }
+        .card-premium-list:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+        
+        .badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; display: inline-block; white-space: nowrap; text-transform: uppercase; }
         .badge.pending { background: #f1f5f9; color: #64748b; }
         .badge.done { background: #f3e8ff; color: #8b5cf6; }
 
@@ -54,15 +57,15 @@
         .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
         
         /* Centralização perfeita do QR Code */
-        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; }
+        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; min-height: 80vh; }
 
-        .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; }
-        .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 10px 18px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; background: #f8fafc; padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; }
+        .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
         .btn-nav:hover:not(:disabled) { background: #f1f5f9; border-color: #cbd5e1; }
         .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
-        .page-indicator { font-weight: 800; color: #8b5cf6; font-size: 14px; background: #f3e8ff; padding: 6px 16px; border-radius: 20px; }
+        .page-indicator { font-weight: 800; color: #8b5cf6; font-size: 13px; background: #f3e8ff; padding: 6px 14px; border-radius: 20px; }
 
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
@@ -103,7 +106,7 @@ correct answer: a" autocomplete="off"></textarea>
     <div class="col-left">
         <!-- ÁREA DO QR CODE GERADO -->
         <div class="card-box" id="qrCodeContainer">
-            <h2 style="font-size: 26px; color: #0f172a; margin-bottom: 10px;"><i class="fa-solid fa-tower-broadcast" style="color: #8b5cf6;"></i> Sessão Ativa!</h2>
+            <h2 style="font-size: 26px; color: #0f172a; margin-bottom: 10px; justify-content: center;"><i class="fa-solid fa-tower-broadcast" style="color: #8b5cf6;"></i> Sessão Ativa!</h2>
             <p style="font-weight: 600; color: #64748b; margin-top: 0; margin-bottom: 30px; font-size: 16px;">Peça aos alunos para escanearem o código abaixo:</p>
             
             <img id="qrImage" src="" alt="QR Code" style="border-radius: 20px; border: 8px solid #f8fafc; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2); width: 280px; height: 280px; margin: 0 auto;">
@@ -164,8 +167,10 @@ correct answer: a" autocomplete="off"></textarea>
             </div>
         </div>
         
-        <div class="card-box" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px;">
+        <!-- CAIXA COM OVERFLOW CORRIGIDO -->
+        <div class="card-box" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; min-height: 0;">
             <h2><i class="fa-solid fa-trophy" style="color: #8b5cf6;"></i> Ranking Ao Vivo</h2>
+            
             <div class="ranking-container" id="rankingList">
                 <div style="text-align: center; color: #94a3b8; margin-top: 60px;">
                     <i class="fa-solid fa-satellite-dish" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i>
@@ -219,7 +224,7 @@ correct answer: a" autocomplete="off"></textarea>
                         </div>
                         <input type="text" id="q-${i}" class="input-premium" placeholder="Enunciado da questão..." autocomplete="off">
                         
-                        <div style="margin-top: 15px; display:flex; flex-direction: column; gap: 10px;">
+                        <div style="margin-top: 10px; display:flex; flex-direction: column; gap: 8px;">
                             <div style="display:flex; align-items:center; gap: 12px;">
                                 <span style="font-weight:800; color:#cbd5e1; font-size:16px; width: 20px; text-align: right;">A)</span>
                                 <input type="text" id="optA-${i}" class="input-premium" placeholder="Alternativa A" style="margin:0;" autocomplete="off">
@@ -333,7 +338,6 @@ correct answer: a" autocomplete="off"></textarea>
                     else if(lLower.startsWith('b)') || lLower.startsWith('b.')) optB = linha.substring(2).trim();
                     else if(lLower.startsWith('c)') || lLower.startsWith('c.')) optC = linha.substring(2).trim();
                     else if(lLower.includes('correct answer') || lLower.includes('resposta')) {
-                        // FIX DA IA: Garante que ele pega apenas A, B ou C após os dois pontos, e ignora a palavra "answer"
                         const partes = linha.split(':');
                         if(partes.length > 1) {
                             const matchLetra = partes[1].match(/[a-cA-C]/);
@@ -353,7 +357,6 @@ correct answer: a" autocomplete="off"></textarea>
 
             document.getElementById('modal-import').style.display = 'none';
             
-            // Retorna visualmente para a página 1 após importar
             document.getElementById(`qform-${questaoAtualProf}`).style.display = 'none';
             questaoAtualProf = 1;
             document.getElementById(`qform-${questaoAtualProf}`).style.display = 'block';
@@ -487,13 +490,13 @@ correct answer: a" autocomplete="off"></textarea>
 
                     rankingList.innerHTML += `
                         <div class="card-premium-list ${baseClass}">
-                            <div style="flex: 2; overflow: hidden; padding-left: 10px; display: flex; align-items: center; gap: 12px;">
-                                <i class="fa-solid ${icon}" style="color: ${iconColor}; font-size: 18px;"></i>
-                                <h3 style="margin:0; color:#0f172a; font-size:14px; font-weight: 800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${data.name}</h3>
+                            <div style="flex: 2; overflow: hidden; padding-left: 5px; display: flex; align-items: center; gap: 10px;">
+                                <i class="fa-solid ${icon}" style="color: ${iconColor}; font-size: 16px;"></i>
+                                <h3 style="margin:0; color:#0f172a; font-size:13px; font-weight: 800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${data.name}</h3>
                             </div>
-                            <div style="flex: 1; text-align:right;">
-                                <span class="badge ${baseClass}" style="margin-right: 15px;">${statusText}</span>
-                                <span style="font-size: 16px; font-weight: 800; color: #0f172a;">${scoreDisplay}</span>
+                            <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
+                                <span class="badge ${baseClass}">${statusText}</span>
+                                <span style="font-size: 14px; font-weight: 800; color: #0f172a; min-width: 45px; text-align: right;">${scoreDisplay}</span>
                             </div>
                         </div>
                     `;
