@@ -111,9 +111,14 @@ correct answer: a" autocomplete="off"></textarea>
             
             <img id="qrImage" src="" alt="QR Code" style="border-radius: 20px; border: 8px solid #f8fafc; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2); width: 280px; height: 280px; margin: 0 auto;">
             
-            <div style="margin-top: 40px;">
+            <div style="margin-top: 30px;">
                 <p style="font-size: 14px; color: #8b5cf6; font-weight: 800; background: #f3e8ff; padding: 15px 30px; border-radius: 15px; display: inline-block; margin: 0;">
                     ID DA SALA: <span id="sessaoIdDisplay" style="color: #0f172a; font-size: 18px; margin-left: 8px;"></span>
+                </p>
+                <!-- NOVA MENSAGEM PARA ALUNOS SEM QR CODE -->
+                <p style="font-size: 13px; color: #64748b; font-weight: 600; margin-top: 20px; line-height: 1.5;">
+                    Sem leitor de QR Code?<br>
+                    Acesse <strong style="color: #3b82f6;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</strong> e digite o ID acima.
                 </p>
             </div>
         </div>
@@ -384,7 +389,6 @@ correct answer: a" autocomplete="off"></textarea>
         const db = getFirestore(app);
 
         // ==============================================================================
-        // COLOQUE AQUI O SEU LINK EXATO DE ONDE A TELA DO ALUNO ESTÁ HOSPEDADA!
         const urlBaseAluno = "https://rafaelalvesbs.github.io/Atividades-Online-Aluno/"; 
         // ==============================================================================
 
