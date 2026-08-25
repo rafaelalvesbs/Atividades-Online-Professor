@@ -39,37 +39,43 @@
 
         .question-form { background: #fff; padding: 0; border-radius: 0; border: none; flex-shrink: 0; width: 100%; box-sizing: border-box; }
         
-        /* Container do Ranking e Rolagem */
-        .ranking-container { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; }
+        /* Container do Ranking e Rolagem (Tabindex adicionado via HTML para foco) */
+        .ranking-container { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; outline: none; }
         
-        .card-premium-list { background: #fff; border-radius: 10px; padding: 10px 15px; margin-bottom: 8px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        /* CARDS COMPACTOS: altura fixada, margins reduzidas, alinhamento perfeito */
+        .card-premium-list { background: #fff; border-radius: 8px; padding: 0 12px; margin-bottom: 5px; height: 36px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .card-premium-list::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #e2e8f0; }
-        .card-premium-list:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+        .card-premium-list:hover { transform: translateX(2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
         
         /* PODIUM STYLES */
-        .podio-1 { border: 2px solid #fbbf24; background: #fffbeb; }
+        .podio-1 { border: 1px solid #fbbf24; background: #fffbeb; }
         .podio-1::before { background: #fbbf24; }
-        .podio-2 { border: 2px solid #94a3b8; background: #f8fafc; }
+        .podio-2 { border: 1px solid #94a3b8; background: #f8fafc; }
         .podio-2::before { background: #94a3b8; }
-        .podio-3 { border: 2px solid #b45309; background: #fff7ed; }
+        .podio-3 { border: 1px solid #b45309; background: #fff7ed; }
         .podio-3::before { background: #b45309; }
-        .rank-pos { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; flex-shrink: 0; }
+        .rank-pos { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #fff; flex-shrink: 0; }
         .bg-1 { background: #fbbf24; } .bg-2 { background: #94a3b8; } .bg-3 { background: #b45309; } .bg-normal { background: #e2e8f0; color: #475569; }
 
-        .badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; display: inline-block; white-space: nowrap; text-transform: uppercase; }
+        .badge { padding: 3px 6px; border-radius: 6px; font-size: 9px; font-weight: 800; display: inline-block; white-space: nowrap; text-transform: uppercase; }
         .badge.pending { background: #f1f5f9; color: #64748b; }
         .badge.done { background: #f3e8ff; color: #8b5cf6; }
 
+        /* Estilo dos Modais */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.8); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(8px); }
         .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
         
-        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; min-height: 80vh; position: relative; }
+        /* Centralização perfeita do QR Code e tamanho gigante */
+        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 20px; height: 100%; position: relative; }
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; background: #f8fafc; padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; flex-shrink: 0; }
         .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
         .btn-nav:hover:not(:disabled) { background: #f1f5f9; border-color: #cbd5e1; }
         .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
         .page-indicator { font-weight: 800; color: #8b5cf6; font-size: 13px; background: #f3e8ff; padding: 6px 14px; border-radius: 20px; }
+
+        .btn-fechar-fullscreen { position: absolute; top: 25px; right: 25px; background: rgba(255,255,255,0.2); border: none; width: 50px; height: 50px; border-radius: 50%; color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-fechar-fullscreen:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
@@ -79,7 +85,10 @@
 </head>
 <body>
 
-    <!-- ALERTA CUSTOMIZADO (Alta prioridade de camada) -->
+    <!-- Span Oculto obrigatório para armazenar o ID gerado e ser copiado para os Modais -->
+    <span id="sessaoIdDisplay" style="display: none;"></span>
+
+    <!-- ALERTA CUSTOMIZADO -->
     <div id="custom-alert-modal" class="modal-overlay" style="z-index: 10005;">
         <div class="modal-content" style="max-width: 400px;">
             <div id="alert-icon" style="margin-bottom: 15px;"></div>
@@ -89,7 +98,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE CONFIRMAÇÃO (Alta prioridade de camada) -->
+    <!-- MODAL DE CONFIRMAÇÃO -->
     <div id="custom-confirm-modal" class="modal-overlay" style="z-index: 10005;">
         <div class="modal-content" style="max-width: 400px;">
             <div style="margin-bottom: 15px;"><i class="fa-solid fa-triangle-exclamation" style="color: #8b5cf6; font-size: 45px;"></i></div>
@@ -108,7 +117,7 @@
             <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> Importar com IA
             </h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom: 20px;">Cole o texto gerado pela Inteligência Artificial abaixo.</p>
+            <p style="font-size:13px; color:#64748b; margin-bottom: 20px;">Cole o texto gerado pela Inteligência Artificial abaixo (questões, alternativas e correct answer).</p>
             <textarea id="texto-importar" class="input-premium" style="height:250px; resize:none; font-family: monospace; font-size: 13px;" placeholder="Ex: 
 1) The cat ___ on the table.
 a) is
@@ -140,19 +149,19 @@ correct answer: a" autocomplete="off"></textarea>
 
     <!-- MODAL QR FULLSCREEN -->
     <div id="modal-qr-full" class="modal-overlay" onclick="this.style.display='none'" style="z-index: 10000; cursor: pointer;">
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-            <img id="qrImageFull" src="" style="width: 75vh; max-width: 90vw; height: 75vh; max-height: 90vw; background: #fff; padding: 20px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
-            <div style="margin-top: 30px; background: #fff; padding: 20px 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-                <p style="margin: 0; font-size: 20px; color: #64748b; font-weight: 800;">ID DA SALA</p>
-                <p id="sessaoIdDisplayFull" style="margin: 5px 0 0 0; font-size: 45px; color: #0f172a; font-weight: 900; letter-spacing: 2px;"></p>
-                <p style="margin: 15px 0 0 0; font-size: 16px; color: #3b82f6; font-weight: 700;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</p>
-            </div>
-            <p style="color: rgba(255,255,255,0.7); margin-top: 20px; font-weight: 600;">Clique em qualquer lugar para fechar</p>
+        <button class="btn-fechar-fullscreen" onclick="fecharQRFullscreen()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%;">
+            <img id="qrImageFull" src="" style="width: 80vh; max-width: 90vw; height: 80vh; max-height: 90vw; background: #fff; padding: 30px; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); object-fit: contain;">
         </div>
     </div>
 
     <!-- MODAL URL FULLSCREEN -->
     <div id="modal-url-full" class="modal-overlay" onclick="this.style.display='none'" style="z-index: 10000; cursor: pointer;">
+        <button class="btn-fechar-fullscreen" onclick="fecharURLFullscreen()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%;">
             <div style="background: #fff; padding: 60px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 90vw;">
                 <p style="font-size: 4vw; font-weight: 900; color: #3b82f6; margin: 0; letter-spacing: -1px; word-break: break-all;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</p>
@@ -165,25 +174,15 @@ correct answer: a" autocomplete="off"></textarea>
     <div class="col-left">
         <!-- ÁREA DO QR CODE GERADO -->
         <div class="card-box" id="qrCodeContainer" style="flex: 1;">
+            <!-- Botões flutuantes para Maximizar URL ou QR Code -->
             <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px;">
                 <button onclick="abrirURLFullscreen()" class="btn-action" style="background: #e0e7ff; color: #4f46e5; border: none; padding: 10px 15px;" title="Link Gigante"><i class="fa-solid fa-link"></i> LINK</button>
-                <button onclick="abrirQRFullscreen()" class="btn-action" style="background: #f3e8ff; color: #8b5cf6; border: none; padding: 10px 15px;" title="QR Gigante"><i class="fa-solid fa-qrcode"></i> QR CODE</button>
+                <button onclick="abrirQRFullscreen()" class="btn-action" style="background: #f3e8ff; color: #8b5cf6; border: none; padding: 10px 15px;" title="QR Gigante"><i class="fa-solid fa-expand"></i> QR CODE</button>
             </div>
 
-            <h2 style="font-size: 26px; color: #0f172a; margin-bottom: 10px; justify-content: center;"><i class="fa-solid fa-tower-broadcast" style="color: #8b5cf6;"></i> Sessão Ativa!</h2>
-            <p style="font-weight: 600; color: #64748b; margin-top: 0; margin-bottom: 30px; font-size: 16px;">Peça aos alunos para escanearem o código abaixo:</p>
+            <!-- Imagem GIGANTE do QR Code, utilizando o espaço liberado -->
+            <img id="qrImage" src="" alt="QR Code" style="border-radius: 20px; border: 8px solid #f8fafc; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2); width: 420px; height: 420px; max-width: 100%; object-fit: contain; margin: auto;">
             
-            <img id="qrImage" src="" alt="QR Code" style="border-radius: 20px; border: 8px solid #f8fafc; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2); width: 280px; height: 280px; margin: 0 auto;">
-            
-            <div style="margin-top: 40px;">
-                <p style="font-size: 14px; color: #8b5cf6; font-weight: 800; background: #f3e8ff; padding: 15px 30px; border-radius: 15px; display: inline-block; margin: 0;">
-                    ID DA SALA: <span id="sessaoIdDisplay" style="color: #0f172a; font-size: 22px; margin-left: 8px; letter-spacing: 2px;"></span>
-                </p>
-                <p style="font-size: 13px; color: #64748b; font-weight: 600; margin-top: 20px; line-height: 1.5;">
-                    Sem leitor de QR Code?<br>
-                    Acesse <strong style="color: #3b82f6;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</strong>
-                </p>
-            </div>
         </div>
 
         <!-- FORMULÁRIO DE CRIAÇÃO -->
@@ -243,7 +242,9 @@ correct answer: a" autocomplete="off"></textarea>
         
         <div class="card-box" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; min-height: 0;">
             <h2 style="flex-shrink: 0;"><i class="fa-solid fa-trophy" style="color: #8b5cf6;"></i> Ranking Ao Vivo</h2>
-            <div class="ranking-container" id="rankingList">
+            
+            <!-- Lista com Foco e Eventos de Teclado -->
+            <div class="ranking-container" id="rankingList" tabindex="0">
                 <div style="text-align: center; color: #94a3b8; margin-top: 60px;">
                     <i class="fa-solid fa-satellite-dish" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i>
                     <p style="font-weight: 600; font-size: 14px;">Aguardando início da sessão...</p>
@@ -284,11 +285,27 @@ correct answer: a" autocomplete="off"></textarea>
             document.getElementById('qrImageFull').src = document.getElementById('qrImage').src;
             document.getElementById('modal-qr-full').style.display = 'flex';
         };
+        window.fecharQRFullscreen = function() {
+            document.getElementById('modal-qr-full').style.display = 'none';
+        };
 
         window.abrirURLFullscreen = function() {
             document.getElementById('sessaoIdDisplayLink').innerText = document.getElementById('sessaoIdDisplay').innerText;
             document.getElementById('modal-url-full').style.display = 'flex';
         };
+        window.fecharURLFullscreen = function() {
+            document.getElementById('modal-url-full').style.display = 'none';
+        };
+
+        // Adiciona rolagem pelo teclado ao Ranking
+        document.addEventListener('DOMContentLoaded', () => {
+            const rankingList = document.getElementById('rankingList');
+            rankingList.addEventListener('mouseenter', () => rankingList.focus());
+            rankingList.addEventListener('keydown', (e) => {
+                if(e.key === 'ArrowDown') { e.preventDefault(); rankingList.scrollTop += 45; }
+                if(e.key === 'ArrowUp') { e.preventDefault(); rankingList.scrollTop -= 45; }
+            });
+        });
 
         let questaoAtualProf = 1;
         
@@ -588,10 +605,8 @@ correct answer: a" autocomplete="off"></textarea>
             btn.style.pointerEvents = 'none';
 
             try {
-                // Gera um ID aleatório de 4 dígitos
                 const sessaoAtualId = String(Math.floor(1000 + Math.random() * 9000));
 
-                // Usa setDoc para forçar o ID exato de 4 números
                 await setDoc(doc(db, "sessoes_ativas", sessaoAtualId), {
                     titulo: tituloSessao,
                     dataCriacao: new Date(),
@@ -603,7 +618,7 @@ correct answer: a" autocomplete="off"></textarea>
                 const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(linkCompleto)}`;
 
                 document.getElementById('qrImage').src = qrUrl;
-                document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId;
+                document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId; // Hidden, mas guarda o valor
                 
                 document.getElementById('areaCriacaoQuestoes').style.display = 'none';
                 document.getElementById('qrCodeContainer').style.display = 'flex';
@@ -658,7 +673,7 @@ correct answer: a" autocomplete="off"></textarea>
                     const scoreDisplay = isEntregue ? `${data.score} / 10` : `-`;
                     const timeFormated = formatarTempoExibicao(data.timeSpent);
                     
-                    // Lógica do Pódio (Somente quem entregou entra no pódio visualmente)
+                    // Lógica do Pódio
                     let posClass = "bg-normal";
                     let rankDisplay = `${index + 1}º`;
                     let rowClass = "";
@@ -673,16 +688,16 @@ correct answer: a" autocomplete="off"></textarea>
                         <div class="card-premium-list ${baseClass} ${rowClass}">
                             <div class="rank-pos ${posClass}">${rankDisplay}</div>
                             
-                            <div style="flex: 2; overflow: hidden; padding-left: 10px; display: flex; align-items: center; gap: 10px;">
-                                <h3 style="margin:0; color:#0f172a; font-size:13px; font-weight: 800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-transform:uppercase;">${data.name}</h3>
+                            <div style="flex: 1; overflow: hidden; padding-left: 10px; display: flex; align-items: center;">
+                                <h3 style="margin:0; color:#0f172a; font-size:12px; font-weight: 800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-transform:uppercase;">${data.name}</h3>
                             </div>
                             
-                            <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
-                                <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1;">
-                                    <span class="badge ${baseClass}">${statusText}</span>
-                                    ${isEntregue ? `<span style="font-size: 10px; color: #64748b; font-weight: 700; margin-top: 3px;"><i class="fa-regular fa-clock"></i> ${timeFormated}</span>` : ''}
+                            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px;">
+                                <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: center; line-height: 1;">
+                                    <span class="badge ${baseClass}" style="font-size: 9px; padding: 3px 6px;">${statusText}</span>
+                                    ${isEntregue ? `<span style="font-size: 9px; color: #64748b; font-weight: 700; margin-top: 3px;"><i class="fa-regular fa-clock"></i> ${timeFormated}</span>` : ''}
                                 </div>
-                                <span style="font-size: 15px; font-weight: 900; color: #0f172a; min-width: 45px; text-align: right;">${scoreDisplay}</span>
+                                <span style="font-size: 14px; font-weight: 900; color: #0f172a; min-width: 35px; text-align: right;">${scoreDisplay}</span>
                             </div>
                         </div>
                     `;
