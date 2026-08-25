@@ -13,16 +13,15 @@
         .col-left { flex: 1.5; background: transparent; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
         .col-right { flex: 1; background: transparent; display: flex; flex-direction: column; overflow: hidden; }
 
-        .card-box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; }
+        .card-box { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; position: relative; }
 
         h2 { color: #0f172a; font-weight: 800; margin-top: 0; margin-bottom: 15px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-size: 18px;}
         
-        /* Gradiente Azul para Roxo */
         .btn-gradient { width: 100%; padding: 16px; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.3s; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; }
         .btn-gradient:hover { background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25); }
         .btn-gradient:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        .btn-action { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 12px; padding: 12px 18px; transition: 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; text-transform: uppercase; }
+        .btn-action { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 11px; padding: 12px 14px; transition: 0.2s; display: flex; align-items: center; gap: 6px; white-space: nowrap; text-transform: uppercase; }
         .btn-action:hover { background: #e2e8f0; color: #0f172a; }
         .btn-action.highlight { background: #f3e8ff; color: #8b5cf6; border-color: #d8b4fe; }
         .btn-action.highlight:hover { background: #e9d5ff; }
@@ -42,22 +41,28 @@
         /* Container do Ranking e Rolagem */
         .ranking-container { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
         
-        /* Cards dos alunos MAIS COMPACTOS */
         .card-premium-list { background: #fff; border-radius: 10px; padding: 10px 15px; margin-bottom: 8px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
         .card-premium-list::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #e2e8f0; }
-        .card-premium-list.done::before { background: linear-gradient(180deg, #3b82f6, #8b5cf6); }
         .card-premium-list:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
         
+        /* PODIUM STYLES */
+        .podio-1 { border: 2px solid #fbbf24; background: #fffbeb; }
+        .podio-1::before { background: #fbbf24; }
+        .podio-2 { border: 2px solid #94a3b8; background: #f8fafc; }
+        .podio-2::before { background: #94a3b8; }
+        .podio-3 { border: 2px solid #b45309; background: #fff7ed; }
+        .podio-3::before { background: #b45309; }
+        .rank-pos { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; color: #fff; flex-shrink: 0; }
+        .bg-1 { background: #fbbf24; } .bg-2 { background: #94a3b8; } .bg-3 { background: #b45309; } .bg-normal { background: #e2e8f0; color: #475569; }
+
         .badge { padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; display: inline-block; white-space: nowrap; text-transform: uppercase; }
         .badge.pending { background: #f1f5f9; color: #64748b; }
         .badge.done { background: #f3e8ff; color: #8b5cf6; }
 
-        /* Estilo dos Modais */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.6); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(5px); }
         .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
         
-        /* Centralização perfeita do QR Code */
-        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; min-height: 80vh; }
+        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; min-height: 80vh; position: relative; }
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; background: #f8fafc; padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; }
         .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
@@ -89,7 +94,7 @@
             <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> Importar com IA
             </h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom: 20px;">Cole o texto gerado pela Inteligência Artificial abaixo (questões, alternativas e correct answer).</p>
+            <p style="font-size:13px; color:#64748b; margin-bottom: 20px;">Cole o texto gerado pela Inteligência Artificial abaixo.</p>
             <textarea id="texto-importar" class="input-premium" style="height:250px; resize:none; font-family: monospace; font-size: 13px;" placeholder="Ex: 
 1) The cat ___ on the table.
 a) is
@@ -97,28 +102,60 @@ b) are
 c) am
 correct answer: a" autocomplete="off"></textarea>
             <div style="display:flex; gap:12px; margin-top:20px;">
-                <button class="btn-gradient" onclick="processarImportacao()" style="flex: 2; padding: 14px;">PROCESSAR E PREENCHER</button>
+                <button class="btn-gradient" onclick="processarImportacao()" style="flex: 2; padding: 14px;">PROCESSAR</button>
                 <button class="btn-action" onclick="document.getElementById('modal-import').style.display='none'" style="flex: 1; justify-content: center; padding: 14px;">CANCELAR</button>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL BANCO DE ATIVIDADES -->
+    <div id="modal-banco" class="modal-overlay">
+        <div class="modal-content" style="text-align: left; max-width: 500px;">
+            <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-box-archive" style="color: #8b5cf6;"></i> Banco de Atividades
+            </h3>
+            <p style="font-size:13px; color:#64748b; margin-bottom: 15px;">Selecione uma atividade salva anteriormente para reutilizar.</p>
+            
+            <div id="lista-banco" style="max-height: 300px; overflow-y: auto; padding-right: 5px;"></div>
+            
+            <div style="margin-top:20px;">
+                <button class="btn-action" onclick="document.getElementById('modal-banco').style.display='none'" style="width: 100%; justify-content: center; padding: 14px;">FECHAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL QR FULLSCREEN -->
+    <div id="modal-qr-full" class="modal-overlay" onclick="this.style.display='none'" style="z-index: 10000; cursor: pointer;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+            <img id="qrImageFull" src="" style="width: 80vh; max-width: 90vw; height: 80vh; max-height: 90vw; background: #fff; padding: 20px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <div style="margin-top: 30px; background: #fff; padding: 20px 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                <p style="margin: 0; font-size: 20px; color: #64748b; font-weight: 800;">ID DA SALA</p>
+                <p id="sessaoIdDisplayFull" style="margin: 5px 0 0 0; font-size: 45px; color: #0f172a; font-weight: 900; letter-spacing: 2px;"></p>
+                <p style="margin: 15px 0 0 0; font-size: 16px; color: #3b82f6; font-weight: 700;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</p>
+            </div>
+            <p style="color: rgba(255,255,255,0.7); margin-top: 20px; font-weight: 600;">Clique em qualquer lugar para fechar</p>
         </div>
     </div>
 
     <div class="col-left">
         <!-- ÁREA DO QR CODE GERADO -->
         <div class="card-box" id="qrCodeContainer">
+            <button onclick="abrirQRFullscreen()" style="position: absolute; top: 15px; right: 15px; background: #f1f5f9; border: none; width: 40px; height: 40px; border-radius: 10px; color: #8b5cf6; font-size: 18px; cursor: pointer; transition: 0.2s;" title="Tela Cheia">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+
             <h2 style="font-size: 26px; color: #0f172a; margin-bottom: 10px; justify-content: center;"><i class="fa-solid fa-tower-broadcast" style="color: #8b5cf6;"></i> Sessão Ativa!</h2>
             <p style="font-weight: 600; color: #64748b; margin-top: 0; margin-bottom: 30px; font-size: 16px;">Peça aos alunos para escanearem o código abaixo:</p>
             
             <img id="qrImage" src="" alt="QR Code" style="border-radius: 20px; border: 8px solid #f8fafc; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2); width: 280px; height: 280px; margin: 0 auto;">
             
-            <div style="margin-top: 30px;">
+            <div style="margin-top: 40px;">
                 <p style="font-size: 14px; color: #8b5cf6; font-weight: 800; background: #f3e8ff; padding: 15px 30px; border-radius: 15px; display: inline-block; margin: 0;">
                     ID DA SALA: <span id="sessaoIdDisplay" style="color: #0f172a; font-size: 18px; margin-left: 8px;"></span>
                 </p>
-                <!-- NOVA MENSAGEM PARA ALUNOS SEM QR CODE -->
                 <p style="font-size: 13px; color: #64748b; font-weight: 600; margin-top: 20px; line-height: 1.5;">
                     Sem leitor de QR Code?<br>
-                    Acesse <strong style="color: #3b82f6;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</strong> e digite o ID acima.
+                    Acesse <strong style="color: #3b82f6;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</strong>
                 </p>
             </div>
         </div>
@@ -129,14 +166,19 @@ correct answer: a" autocomplete="off"></textarea>
                 <h2><i class="fa-solid fa-layer-group" style="color: #3b82f6;"></i> Construtor de Atividade</h2>
             </div>
             
-            <!-- Campo de Título e Botões de Ação -->
-            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 25px; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px dashed #cbd5e1;">
-                <input type="text" id="titulo-gram" class="input-premium" placeholder="Tema da Atividade (Ex: Present Simple)" style="flex: 1; margin-bottom: 0;" autocomplete="off">
+            <!-- Campo Oficial e Prompt -->
+            <input type="text" id="titulo-oficial" class="input-premium" placeholder="Título Oficial da Atividade (Aparecerá para o Aluno)" autocomplete="off">
+            
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 25px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px dashed #cbd5e1; flex-wrap: wrap;">
+                <input type="text" id="titulo-gram" class="input-premium" placeholder="Tema/Prompt para IA (Ex: Verb To Be)" style="flex: 1; margin-bottom: 0; min-width: 150px;" autocomplete="off">
                 <button class="btn-action" id="btn-prompt-gram" onclick="copiarPrompt(event)">
-                    <i class="fa-solid fa-copy"></i> COPIAR PROMPT
+                    <i class="fa-solid fa-copy"></i> PROMPT
                 </button>
                 <button class="btn-action highlight" onclick="document.getElementById('modal-import').style.display='flex'">
-                    <i class="fa-solid fa-paste"></i> IMPORTAR DA IA
+                    <i class="fa-solid fa-paste"></i> IMPORTAR
+                </button>
+                <button class="btn-action" style="background: #e2e8f0; color: #0f172a;" onclick="abrirBancoAtividades()">
+                    <i class="fa-solid fa-box-archive"></i> ATRIBUIR
                 </button>
             </div>
 
@@ -150,10 +192,9 @@ correct answer: a" autocomplete="off"></textarea>
                 <button class="btn-nav" id="btnNextProf" onclick="mudarQuestaoProf(1)">PRÓXIMA <i class="fa-solid fa-arrow-right"></i></button>
             </div>
             
-            <!-- Botão de Salvar no final -->
             <div style="margin-top: 30px;">
                 <button id="btnGerarSessao" class="btn-gradient">
-                    <i class="fa-solid fa-paper-plane"></i> PUBLICAR ATIVIDADE E GERAR QR CODE
+                    PUBLICAR ATIVIDADE
                 </button>
             </div>
         </div>
@@ -172,7 +213,6 @@ correct answer: a" autocomplete="off"></textarea>
             </div>
         </div>
         
-        <!-- CAIXA COM OVERFLOW CORRIGIDO -->
         <div class="card-box" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; min-height: 0;">
             <h2><i class="fa-solid fa-trophy" style="color: #8b5cf6;"></i> Ranking Ao Vivo</h2>
             
@@ -185,7 +225,6 @@ correct answer: a" autocomplete="off"></textarea>
         </div>
     </div>
 
-    <!-- LÓGICA DE INTERFACE, PROMPT E IMPORTAÇÃO -->
     <script>
         // Função do Alerta Customizado
         window.mostrarAlertaCustomizado = function(titulo, mensagem, tipo = 'error') {
@@ -206,6 +245,12 @@ correct answer: a" autocomplete="off"></textarea>
 
         window.fecharAlertaCustomizado = function() {
             document.getElementById('custom-alert-modal').style.display = 'none';
+        };
+
+        window.abrirQRFullscreen = function() {
+            document.getElementById('qrImageFull').src = document.getElementById('qrImage').src;
+            document.getElementById('sessaoIdDisplayFull').innerText = document.getElementById('sessaoIdDisplay').innerText;
+            document.getElementById('modal-qr-full').style.display = 'flex';
         };
 
         let questaoAtualProf = 1;
@@ -266,7 +311,7 @@ correct answer: a" autocomplete="off"></textarea>
 
         window.copiarPrompt = function(event) {
             const inputTitulo = document.getElementById('titulo-gram');
-            const titulo = inputTitulo.value.trim() || 'Atividade de Inglês';
+            const titulo = inputTitulo.value.trim() || 'Inglês';
             const btn = event.currentTarget;
             
             const prompt = "Crie uma atividade.\n\n" +
@@ -302,7 +347,7 @@ correct answer: a" autocomplete="off"></textarea>
             if (e.target.id === 'titulo-gram') {
                 const btnPrompt = document.getElementById('btn-prompt-gram');
                 if (btnPrompt && e.target.value.trim() === "") {
-                    btnPrompt.innerHTML = '<i class="fa-solid fa-copy"></i> COPIAR PROMPT';
+                    btnPrompt.innerHTML = '<i class="fa-solid fa-copy"></i> PROMPT';
                 }
             }
         });
@@ -319,7 +364,6 @@ correct answer: a" autocomplete="off"></textarea>
                 return;
             }
 
-            // Limpar formulário antes de preencher
             for(let i=1; i<=10; i++) {
                 document.getElementById(`q-${i}`).value = "";
                 document.getElementById(`optA-${i}`).value = "";
@@ -367,14 +411,21 @@ correct answer: a" autocomplete="off"></textarea>
             document.getElementById(`qform-${questaoAtualProf}`).style.display = 'block';
             atualizarBotoesNav();
 
-            mostrarAlertaCustomizado("Importação Concluída", "Questões importadas com sucesso! Navegue pelas setas para conferir as alternativas e o gabarito.", "success");
+            mostrarAlertaCustomizado("Sucesso", "Questões importadas com sucesso! Revise e clique em Publicar.", "success");
         };
+        
+        function formatarTempoExibicao(msTotal) {
+            if(!msTotal || msTotal === Infinity) return '--:--';
+            const mins = Math.floor(msTotal / 60000);
+            const segs = Math.floor((msTotal % 60000) / 1000);
+            return `${mins.toString().padStart(2, '0')}:${segs.toString().padStart(2, '0')}`;
+        }
     </script>
 
-    <!-- FIREBASE & SUBMISSÃO -->
+    <!-- FIREBASE & BANCO -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDoPCn9UisXYRJFKwxfPoe-5nIhPqOVXt0",
@@ -393,11 +444,94 @@ correct answer: a" autocomplete="off"></textarea>
         // ==============================================================================
 
         let unsubscribe = null;
+        window.cacheBancoGlobal = [];
 
+        // Lógica do Banco de Atividades (Buscar Sessões Anteriores)
+        window.abrirBancoAtividades = async function() {
+            document.getElementById('modal-banco').style.display = 'flex';
+            const lista = document.getElementById('lista-banco');
+            lista.innerHTML = '<p style="text-align:center; color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Buscando...</p>';
+            
+            try {
+                const q = query(collection(db, "sessoes_ativas"));
+                const snap = await getDocs(q);
+                let atividadesFiltradas = [];
+                
+                snap.forEach(d => {
+                    const data = d.data();
+                    if(data.titulo && data.titulo.trim() !== "" && data.questoes && data.questoes.length > 0) {
+                        atividadesFiltradas.push({id: d.id, ...data});
+                    }
+                });
+
+                // Remover duplicatas pelo título (pegar as mais recentes)
+                let unicos = [];
+                let titulosSet = new Set();
+                
+                atividadesFiltradas.sort((a,b) => (b.dataCriacao?.seconds || 0) - (a.dataCriacao?.seconds || 0)).forEach(a => {
+                    const tLower = a.titulo.toLowerCase().trim();
+                    if(!titulosSet.has(tLower)) {
+                        titulosSet.add(tLower);
+                        unicos.push(a);
+                    }
+                });
+
+                if(unicos.length === 0) {
+                    lista.innerHTML = '<p style="text-align:center; color:#94a3b8; font-weight: 600;">Nenhuma atividade com título foi encontrada no seu histórico.</p>';
+                    return;
+                }
+
+                lista.innerHTML = unicos.map(a => `
+                    <div style="padding: 15px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; background: #f8fafc;">
+                        <strong style="color: #0f172a; font-size: 14px;">${a.titulo}</strong>
+                        <button class="btn-gradient" style="width: auto; padding: 8px 15px; font-size: 12px;" onclick="window.usarAtividadeBanco('${a.id}')">USAR</button>
+                    </div>
+                `).join('');
+                
+                window.cacheBancoGlobal = unicos;
+
+            } catch (e) {
+                console.error(e);
+                lista.innerHTML = '<p style="text-align:center; color:#ef4444;">Erro ao carregar o banco.</p>';
+            }
+        };
+
+        window.usarAtividadeBanco = function(id) {
+            const atv = window.cacheBancoGlobal.find(a => a.id === id);
+            if(atv) {
+                document.getElementById('titulo-oficial').value = atv.titulo;
+                
+                atv.questoes.forEach((qData, i) => {
+                    if(i >= 10) return;
+                    const n = i+1;
+                    document.getElementById(`q-${n}`).value = qData.q;
+                    document.getElementById(`optA-${n}`).value = qData.opts.A;
+                    document.getElementById(`optB-${n}`).value = qData.opts.B;
+                    document.getElementById(`optC-${n}`).value = qData.opts.C;
+                    document.getElementById(`ans-${n}`).value = qData.answer;
+                });
+                
+                document.getElementById('modal-banco').style.display = 'none';
+                
+                document.getElementById(`qform-${questaoAtualProf}`).style.display = 'none';
+                questaoAtualProf = 1;
+                document.getElementById(`qform-${questaoAtualProf}`).style.display = 'block';
+                atualizarBotoesNav();
+                
+                mostrarAlertaCustomizado("Pronto!", "A atividade foi carregada. Clique em publicar para gerar a sala.", "success");
+            }
+        };
+
+        // Geração da Sala
         document.getElementById('btnGerarSessao').addEventListener('click', async () => {
             const btn = document.getElementById('btnGerarSessao');
-            const tituloSessao = document.getElementById('titulo-gram').value.trim() || "Atividade de Gramática";
+            const tituloSessao = document.getElementById('titulo-oficial').value.trim();
             
+            if(!tituloSessao) {
+                mostrarAlertaCustomizado("Atenção", "Preencha o Título Oficial da Atividade antes de publicar.", "error");
+                return;
+            }
+
             let questoesSalvas = [];
             let erroNaQuestao = -1;
 
@@ -417,8 +551,7 @@ correct answer: a" autocomplete="off"></textarea>
             }
 
             if (erroNaQuestao !== -1) {
-                mostrarAlertaCustomizado("Atenção", `A Questão ${erroNaQuestao} não foi totalmente preenchida! Navegue até ela e complete os campos.`, "error");
-                
+                mostrarAlertaCustomizado("Atenção", `A Questão ${erroNaQuestao} não foi totalmente preenchida!`, "error");
                 document.getElementById(`qform-${questaoAtualProf}`).style.display = 'none';
                 questaoAtualProf = erroNaQuestao;
                 document.getElementById(`qform-${questaoAtualProf}`).style.display = 'block';
@@ -444,7 +577,6 @@ correct answer: a" autocomplete="off"></textarea>
                 document.getElementById('qrImage').src = qrUrl;
                 document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId;
                 
-                // Transição suave para esconder form e exibir o QR Code centralizado
                 document.getElementById('areaCriacaoQuestoes').style.display = 'none';
                 document.getElementById('qrCodeContainer').style.display = 'flex';
                 
@@ -452,12 +584,13 @@ correct answer: a" autocomplete="off"></textarea>
 
             } catch (e) {
                 console.error("Erro ao gerar sessão:", e);
-                mostrarAlertaCustomizado("Erro de Conexão", "Falha ao criar sala. Verifique sua internet.", "error");
-                btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> PUBLICAR ATIVIDADE E GERAR QR CODE';
+                mostrarAlertaCustomizado("Erro", "Falha ao criar sala. Verifique sua internet.", "error");
+                btn.innerHTML = 'PUBLICAR ATIVIDADE';
                 btn.style.pointerEvents = 'auto';
             }
         });
 
+        // Monitoramento com Desempate de Tempo e Pódio
         function iniciarMonitoramento(idSessao) {
             if (unsubscribe) unsubscribe();
 
@@ -479,9 +612,15 @@ correct answer: a" autocomplete="off"></textarea>
                 let alunos = [];
                 snapshot.forEach((doc) => { alunos.push({ id: doc.id, ...doc.data() }); });
                 
-                alunos.sort((a, b) => b.score - a.score);
+                // Ordenação: 1º Score Descendente, 2º Tempo Ascendente (menor tempo = melhor)
+                alunos.sort((a, b) => {
+                    if (b.score !== a.score) return b.score - a.score;
+                    const tA = a.timeSpent || Infinity;
+                    const tB = b.timeSpent || Infinity;
+                    return tA - tB;
+                });
 
-                alunos.forEach((data) => {
+                alunos.forEach((data, index) => {
                     logados++;
                     const isEntregue = data.status === "entregue";
                     if (isEntregue) entregues++;
@@ -489,18 +628,34 @@ correct answer: a" autocomplete="off"></textarea>
                     const baseClass = isEntregue ? "done" : "pending";
                     const statusText = isEntregue ? "ENTREGUE" : "FAZENDO";
                     const scoreDisplay = isEntregue ? `${data.score} / 10` : `-`;
-                    const icon = isEntregue ? "fa-circle-check" : "fa-spinner fa-spin";
-                    const iconColor = isEntregue ? "#8b5cf6" : "#cbd5e1";
+                    
+                    const timeFormated = formatarTempoExibicao(data.timeSpent);
+                    
+                    // Lógica do Pódio
+                    let posClass = "bg-normal";
+                    let rankDisplay = `${index + 1}º`;
+                    let rowClass = "";
+
+                    if (isEntregue) {
+                        if (index === 0) { posClass = "bg-1"; rankDisplay = '<i class="fa-solid fa-crown"></i>'; rowClass = "podio-1"; }
+                        else if (index === 1) { posClass = "bg-2"; rankDisplay = '<i class="fa-solid fa-medal"></i>'; rowClass = "podio-2"; }
+                        else if (index === 2) { posClass = "bg-3"; rankDisplay = '<i class="fa-solid fa-medal"></i>'; rowClass = "podio-3"; }
+                    }
 
                     rankingList.innerHTML += `
-                        <div class="card-premium-list ${baseClass}">
-                            <div style="flex: 2; overflow: hidden; padding-left: 5px; display: flex; align-items: center; gap: 10px;">
-                                <i class="fa-solid ${icon}" style="color: ${iconColor}; font-size: 16px;"></i>
-                                <h3 style="margin:0; color:#0f172a; font-size:13px; font-weight: 800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${data.name}</h3>
+                        <div class="card-premium-list ${baseClass} ${rowClass}">
+                            <div class="rank-pos ${posClass}">${rankDisplay}</div>
+                            
+                            <div style="flex: 2; overflow: hidden; padding-left: 10px; display: flex; align-items: center; gap: 10px;">
+                                <h3 style="margin:0; color:#0f172a; font-size:13px; font-weight: 800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-transform:uppercase;">${data.name}</h3>
                             </div>
+                            
                             <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 10px;">
-                                <span class="badge ${baseClass}">${statusText}</span>
-                                <span style="font-size: 14px; font-weight: 800; color: #0f172a; min-width: 45px; text-align: right;">${scoreDisplay}</span>
+                                <div style="display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1;">
+                                    <span class="badge ${baseClass}">${statusText}</span>
+                                    ${isEntregue ? `<span style="font-size: 10px; color: #64748b; font-weight: 700; margin-top: 3px;"><i class="fa-regular fa-clock"></i> ${timeFormated}</span>` : ''}
+                                </div>
+                                <span style="font-size: 15px; font-weight: 900; color: #0f172a; min-width: 45px; text-align: right;">${scoreDisplay}</span>
                             </div>
                         </div>
                     `;
