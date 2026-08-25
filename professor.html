@@ -17,16 +17,17 @@
 
         h2 { color: #0f172a; font-weight: 800; margin-top: 0; margin-bottom: 15px; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-size: 18px; flex-shrink: 0;}
         
+        /* Gradiente Azul para Roxo */
         .btn-gradient { width: 100%; padding: 16px; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; border: none; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.3s; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; }
         .btn-gradient:hover { background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25); }
         .btn-gradient:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        .btn-action { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 12px; padding: 12px 18px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; text-transform: uppercase; }
+        .btn-action { background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 11px; padding: 12px 14px; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; text-transform: uppercase; }
         .btn-action:hover { background: #e2e8f0; color: #0f172a; }
         .btn-action.highlight { background: #f3e8ff; color: #8b5cf6; border-color: #d8b4fe; }
         .btn-action.highlight:hover { background: #e9d5ff; }
 
-        .input-premium { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 14px; background: #fff; margin-bottom: 12px; font-family: inherit; color: #0f172a; box-sizing: border-box; outline: none; transition: 0.3s; font-weight: 600; flex-shrink: 0; }
+        .input-premium { padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 14px; background: #fff; margin-bottom: 12px; font-family: inherit; color: #0f172a; box-sizing: border-box; outline: none; transition: 0.3s; font-weight: 600; flex-shrink: 0; width: 100%; }
         .input-premium:focus { border-color: #8b5cf6; box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1); }
 
         .stats-container { display: flex; gap: 15px; margin-bottom: 20px; flex-shrink: 0; }
@@ -36,14 +37,15 @@
         .stat-number { font-size: 32px; font-weight: 800; color: #0f172a; line-height: 1; margin-bottom: 5px; }
         .stat-label { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .question-form { background: #fff; padding: 0; border-radius: 0; border: none; flex-shrink: 0; }
+        .question-form { background: #fff; padding: 0; border-radius: 0; border: none; flex-shrink: 0; width: 100%; box-sizing: border-box; }
         
-        .ranking-container { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
+        .ranking-container { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; }
         
         .card-premium-list { background: #fff; border-radius: 10px; padding: 10px 15px; margin-bottom: 8px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
         .card-premium-list::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #e2e8f0; }
         .card-premium-list:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
         
+        /* PODIUM STYLES */
         .podio-1 { border: 2px solid #fbbf24; background: #fffbeb; }
         .podio-1::before { background: #fbbf24; }
         .podio-2 { border: 2px solid #94a3b8; background: #f8fafc; }
@@ -60,7 +62,7 @@
         .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.8); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(8px); }
         .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
         
-        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; position: relative; }
+        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; min-height: 80vh; position: relative; }
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; background: #f8fafc; padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; flex-shrink: 0; }
         .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
@@ -86,6 +88,19 @@
         </div>
     </div>
 
+    <!-- MODAL DE CONFIRMAÇÃO -->
+    <div id="custom-confirm-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px;">
+            <div style="margin-bottom: 15px;"><i class="fa-solid fa-triangle-exclamation" style="color: #8b5cf6; font-size: 45px;"></i></div>
+            <h3 id="confirm-title" style="color: #0f172a; margin-top: 0; font-weight: 800; font-size: 20px;">Atenção</h3>
+            <p id="confirm-msg" style="color: #64748b; font-size: 14px; line-height: 1.5; margin-bottom: 25px;"></p>
+            <div style="display:flex; gap:10px;">
+                <button id="btn-confirm-yes" class="btn-gradient" style="flex:1; padding: 12px; background: #ef4444;">SIM, EXCLUIR</button>
+                <button id="btn-confirm-no" class="btn-action" style="flex:1; justify-content:center; padding: 12px;">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL IMPORTAÇÃO DA IA -->
     <div id="modal-import" class="modal-overlay">
         <div class="modal-content" style="text-align: left;">
@@ -101,7 +116,7 @@ c) am
 correct answer: a" autocomplete="off"></textarea>
             <div style="display:flex; gap:12px; margin-top:20px;">
                 <button class="btn-gradient" onclick="processarImportacao()" style="flex: 2; padding: 14px;">PROCESSAR</button>
-                <button class="btn-action" onclick="document.getElementById('modal-import').style.display='none'" style="flex: 1; padding: 14px;">CANCELAR</button>
+                <button class="btn-action" onclick="document.getElementById('modal-import').style.display='none'" style="flex: 1; justify-content: center; padding: 14px;">CANCELAR</button>
             </div>
         </div>
     </div>
@@ -112,18 +127,25 @@ correct answer: a" autocomplete="off"></textarea>
             <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-box-archive" style="color: #8b5cf6;"></i> Banco de Atividades
             </h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom: 15px;">Selecione uma atividade para reutilizar ou apague as antigas.</p>
-            <div id="lista-banco" style="max-height: 300px; overflow-y: auto; padding-right: 5px;"></div>
+            <p style="font-size:13px; color:#64748b; margin-bottom: 15px;">Selecione uma atividade salva anteriormente para reutilizar.</p>
+            
+            <div id="lista-banco" style="max-height: 300px; overflow-y: auto; overflow-x: hidden; padding-right: 5px;"></div>
+            
             <div style="margin-top:20px;">
-                <button class="btn-action" onclick="document.getElementById('modal-banco').style.display='none'" style="width: 100%; padding: 14px;">FECHAR</button>
+                <button class="btn-action" onclick="document.getElementById('modal-banco').style.display='none'" style="width: 100%; justify-content: center; padding: 14px;">FECHAR</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL QR FULLSCREEN -->
-    <div id="modal-qr-full" class="modal-overlay" onclick="this.style.display='none'" style="cursor: pointer;">
+    <div id="modal-qr-full" class="modal-overlay" onclick="this.style.display='none'" style="z-index: 10000; cursor: pointer;">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
             <img id="qrImageFull" src="" style="width: 75vh; max-width: 90vw; height: 75vh; max-height: 90vw; background: #fff; padding: 20px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <div style="margin-top: 30px; background: #fff; padding: 20px 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                <p style="margin: 0; font-size: 20px; color: #64748b; font-weight: 800;">ID DA SALA</p>
+                <p id="sessaoIdDisplayFull" style="margin: 5px 0 0 0; font-size: 45px; color: #0f172a; font-weight: 900; letter-spacing: 2px;"></p>
+                <p style="margin: 15px 0 0 0; font-size: 16px; color: #3b82f6; font-weight: 700;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</p>
+            </div>
             <p style="color: rgba(255,255,255,0.7); margin-top: 20px; font-weight: 600;">Clique em qualquer lugar para fechar</p>
         </div>
     </div>
@@ -173,8 +195,8 @@ correct answer: a" autocomplete="off"></textarea>
             <input type="text" id="titulo-oficial" class="input-premium" placeholder="Título Oficial da Atividade (Aparece para o Aluno)" autocomplete="off">
             
             <!-- Campo de Prompt e Botões -->
-            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 15px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px dashed #cbd5e1; flex-shrink: 0;">
-                <input type="text" id="prompt-gram" class="input-premium" placeholder="Prompt IA (Ex: Present Simple)" style="flex: 1; margin-bottom: 0;" autocomplete="off">
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 15px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px dashed #cbd5e1; flex-shrink: 0; flex-wrap: wrap;">
+                <input type="text" id="prompt-gram" class="input-premium" placeholder="Prompt IA (Ex: Present Simple)" style="flex: 1; margin-bottom: 0; min-width: 150px;" autocomplete="off">
                 <button class="btn-action" id="btn-prompt-gram" onclick="copiarPrompt(event)">
                     <i class="fa-solid fa-copy"></i> PROMPT
                 </button>
@@ -187,7 +209,7 @@ correct answer: a" autocomplete="off"></textarea>
             </div>
 
             <!-- SCROLL INTERNO PARA AS QUESTÕES -->
-            <div id="formQuestoesContainer" style="flex: 1; overflow-y: auto; padding-right: 5px;"></div>
+            <div id="formQuestoesContainer" style="flex: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; width: 100%; box-sizing: border-box;"></div>
 
             <!-- Navegação Paginada -->
             <div class="nav-container">
@@ -218,7 +240,7 @@ correct answer: a" autocomplete="off"></textarea>
             </div>
         </div>
         
-        <div class="card-box" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden;">
+        <div class="card-box" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; min-height: 0;">
             <h2 style="flex-shrink: 0;"><i class="fa-solid fa-trophy" style="color: #8b5cf6;"></i> Ranking Ao Vivo</h2>
             <div class="ranking-container" id="rankingList">
                 <div style="text-align: center; color: #94a3b8; margin-top: 60px;">
@@ -243,6 +265,20 @@ correct answer: a" autocomplete="off"></textarea>
 
         window.fecharAlertaCustomizado = function() { document.getElementById('custom-alert-modal').style.display = 'none'; };
 
+        window.mostrarConfirmacaoCustomizada = function(titulo, mensagem, callbackSim) {
+            document.getElementById('confirm-title').innerText = titulo;
+            document.getElementById('confirm-msg').innerText = mensagem;
+            document.getElementById('custom-confirm-modal').style.display = 'flex';
+            
+            document.getElementById('btn-confirm-yes').onclick = function() {
+                document.getElementById('custom-confirm-modal').style.display = 'none';
+                callbackSim();
+            };
+            document.getElementById('btn-confirm-no').onclick = function() {
+                document.getElementById('custom-confirm-modal').style.display = 'none';
+            };
+        };
+
         window.abrirQRFullscreen = function() {
             document.getElementById('qrImageFull').src = document.getElementById('qrImage').src;
             document.getElementById('modal-qr-full').style.display = 'flex';
@@ -260,8 +296,8 @@ correct answer: a" autocomplete="off"></textarea>
             container.innerHTML = '';
             for (let i = 1; i <= 10; i++) {
                 container.innerHTML += `
-                    <div class="question-form" id="qform-${i}" style="display: ${i === 1 ? 'block' : 'none'};">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <div class="question-form" id="qform-${i}" style="display: ${i === 1 ? 'block' : 'none'}; width: 100%; box-sizing: border-box;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; width: 100%;">
                             <span style="font-size: 14px; font-weight: 800; color: #0f172a;">Questão ${i}</span>
                             <div style="display:flex; align-items:center; gap: 8px;">
                                 <span style="font-size: 11px; font-weight: 800; color: #8b5cf6; text-transform: uppercase;">Gabarito:</span>
@@ -272,20 +308,20 @@ correct answer: a" autocomplete="off"></textarea>
                                 </select>
                             </div>
                         </div>
-                        <input type="text" id="q-${i}" class="input-premium" placeholder="Enunciado da questão..." autocomplete="off">
+                        <input type="text" id="q-${i}" class="input-premium" placeholder="Enunciado da questão..." style="width: 100%; box-sizing: border-box;" autocomplete="off">
                         
-                        <div style="margin-top: 10px; display:flex; flex-direction: column; gap: 8px;">
-                            <div style="display:flex; align-items:center; gap: 12px;">
-                                <span style="font-weight:800; color:#cbd5e1; font-size:16px; width: 20px; text-align: right;">A)</span>
-                                <input type="text" id="optA-${i}" class="input-premium" placeholder="Alternativa A" style="margin:0;" autocomplete="off">
+                        <div style="margin-top: 10px; display:flex; flex-direction: column; gap: 8px; width: 100%; box-sizing: border-box;">
+                            <div style="display:flex; align-items:center; gap: 12px; width: 100%; box-sizing: border-box;">
+                                <span style="font-weight:800; color:#cbd5e1; font-size:16px; width: 20px; text-align: right; flex-shrink: 0;">A)</span>
+                                <input type="text" id="optA-${i}" class="input-premium" placeholder="Alternativa A" style="margin:0; flex: 1; min-width: 0;" autocomplete="off">
                             </div>
-                            <div style="display:flex; align-items:center; gap: 12px;">
-                                <span style="font-weight:800; color:#cbd5e1; font-size:16px; width: 20px; text-align: right;">B)</span>
-                                <input type="text" id="optB-${i}" class="input-premium" placeholder="Alternativa B" style="margin:0;" autocomplete="off">
+                            <div style="display:flex; align-items:center; gap: 12px; width: 100%; box-sizing: border-box;">
+                                <span style="font-weight:800; color:#cbd5e1; font-size:16px; width: 20px; text-align: right; flex-shrink: 0;">B)</span>
+                                <input type="text" id="optB-${i}" class="input-premium" placeholder="Alternativa B" style="margin:0; flex: 1; min-width: 0;" autocomplete="off">
                             </div>
-                            <div style="display:flex; align-items:center; gap: 12px;">
-                                <span style="font-weight:800; color:#cbd5e1; font-size:16px; width: 20px; text-align: right;">C)</span>
-                                <input type="text" id="optC-${i}" class="input-premium" placeholder="Alternativa C" style="margin:0;" autocomplete="off">
+                            <div style="display:flex; align-items:center; gap: 12px; width: 100%; box-sizing: border-box;">
+                                <span style="font-weight:800; color:#cbd5e1; font-size:16px; width: 20px; text-align: right; flex-shrink: 0;">C)</span>
+                                <input type="text" id="optC-${i}" class="input-premium" placeholder="Alternativa C" style="margin:0; flex: 1; min-width: 0;" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -393,7 +429,7 @@ correct answer: a" autocomplete="off"></textarea>
         }
     </script>
 
-    <!-- FIREBASE, SUBMISSÃO E BANCO DE ATIVIDADES -->
+    <!-- FIREBASE E LÓGICA CORE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, onSnapshot, query, where, getDocs, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -435,7 +471,6 @@ correct answer: a" autocomplete="off"></textarea>
                     }
                 });
 
-                // Remove duplicadas, mantendo a versão mais nova de cada título
                 let unicos = [];
                 let titulosSet = new Set();
                 
@@ -496,17 +531,21 @@ correct answer: a" autocomplete="off"></textarea>
             }
         };
 
-        window.excluirAtividadeBanco = async function(id) {
-            if(confirm("Tem certeza que deseja apagar essa atividade permanentemente do seu histórico?")) {
-                try {
-                    await deleteDoc(doc(db, "sessoes_ativas", id));
-                    mostrarAlertaCustomizado("Sucesso", "Atividade excluída do banco.", "success");
-                    abrirBancoAtividades(); // Atualiza a lista na hora
-                } catch(e) {
-                    console.error("Erro ao excluir", e);
-                    mostrarAlertaCustomizado("Erro", "Falha ao excluir atividade do banco.", "error");
+        window.excluirAtividadeBanco = function(id) {
+            window.mostrarConfirmacaoCustomizada(
+                "Excluir Atividade", 
+                "Tem certeza que deseja apagar essa atividade permanentemente do seu histórico?", 
+                async function() {
+                    try {
+                        await deleteDoc(doc(db, "sessoes_ativas", id));
+                        mostrarAlertaCustomizado("Sucesso", "Atividade excluída do banco.", "success");
+                        abrirBancoAtividades(); 
+                    } catch(e) {
+                        console.error("Erro ao excluir", e);
+                        mostrarAlertaCustomizado("Erro", "Falha ao excluir atividade do banco.", "error");
+                    }
                 }
-            }
+            );
         };
 
         // GERAÇÃO DA SALA COM ID 4 DÍGITOS
@@ -548,10 +587,8 @@ correct answer: a" autocomplete="off"></textarea>
             btn.style.pointerEvents = 'none';
 
             try {
-                // Gera um ID aleatório de 4 dígitos
                 const sessaoAtualId = String(Math.floor(1000 + Math.random() * 9000));
 
-                // Usa setDoc para forçar o ID exato de 4 números
                 await setDoc(doc(db, "sessoes_ativas", sessaoAtualId), {
                     titulo: tituloSessao,
                     dataCriacao: new Date(),
@@ -578,7 +615,6 @@ correct answer: a" autocomplete="off"></textarea>
             }
         });
 
-        // MONITORAMENTO (COM PÓDIO E DESEMPATE POR TEMPO)
         function iniciarMonitoramento(idSessao) {
             if (unsubscribe) unsubscribe();
 
@@ -618,7 +654,6 @@ correct answer: a" autocomplete="off"></textarea>
                     const scoreDisplay = isEntregue ? `${data.score} / 10` : `-`;
                     const timeFormated = formatarTempoExibicao(data.timeSpent);
                     
-                    // Lógica do Pódio (Somente quem entregou entra no pódio visualmente)
                     let posClass = "bg-normal";
                     let rankDisplay = `${index + 1}º`;
                     let rowClass = "";
