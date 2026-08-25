@@ -39,6 +39,7 @@
 
         .question-form { background: #fff; padding: 0; border-radius: 0; border: none; flex-shrink: 0; width: 100%; box-sizing: border-box; }
         
+        /* Container do Ranking e Rolagem */
         .ranking-container { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; }
         
         .card-premium-list { background: #fff; border-radius: 10px; padding: 10px 15px; margin-bottom: 8px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
@@ -78,8 +79,8 @@
 </head>
 <body>
 
-    <!-- ALERTA CUSTOMIZADO -->
-    <div id="custom-alert-modal" class="modal-overlay">
+    <!-- ALERTA CUSTOMIZADO (Alta prioridade de camada) -->
+    <div id="custom-alert-modal" class="modal-overlay" style="z-index: 10005;">
         <div class="modal-content" style="max-width: 400px;">
             <div id="alert-icon" style="margin-bottom: 15px;"></div>
             <h3 id="alert-title" style="color: #0f172a; margin-top: 0; font-weight: 800; font-size: 20px;">Aviso</h3>
@@ -88,8 +89,8 @@
         </div>
     </div>
 
-    <!-- MODAL DE CONFIRMAÇÃO -->
-    <div id="custom-confirm-modal" class="modal-overlay">
+    <!-- MODAL DE CONFIRMAÇÃO (Alta prioridade de camada) -->
+    <div id="custom-confirm-modal" class="modal-overlay" style="z-index: 10005;">
         <div class="modal-content" style="max-width: 400px;">
             <div style="margin-bottom: 15px;"><i class="fa-solid fa-triangle-exclamation" style="color: #8b5cf6; font-size: 45px;"></i></div>
             <h3 id="confirm-title" style="color: #0f172a; margin-top: 0; font-weight: 800; font-size: 20px;">Atenção</h3>
@@ -151,7 +152,7 @@ correct answer: a" autocomplete="off"></textarea>
     </div>
 
     <!-- MODAL URL FULLSCREEN -->
-    <div id="modal-url-full" class="modal-overlay" onclick="this.style.display='none'" style="cursor: pointer;">
+    <div id="modal-url-full" class="modal-overlay" onclick="this.style.display='none'" style="z-index: 10000; cursor: pointer;">
         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%;">
             <div style="background: #fff; padding: 60px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 90vw;">
                 <p style="font-size: 4vw; font-weight: 900; color: #3b82f6; margin: 0; letter-spacing: -1px; word-break: break-all;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</p>
@@ -587,8 +588,10 @@ correct answer: a" autocomplete="off"></textarea>
             btn.style.pointerEvents = 'none';
 
             try {
+                // Gera um ID aleatório de 4 dígitos
                 const sessaoAtualId = String(Math.floor(1000 + Math.random() * 9000));
 
+                // Usa setDoc para forçar o ID exato de 4 números
                 await setDoc(doc(db, "sessoes_ativas", sessaoAtualId), {
                     titulo: tituloSessao,
                     dataCriacao: new Date(),
@@ -615,6 +618,7 @@ correct answer: a" autocomplete="off"></textarea>
             }
         });
 
+        // MONITORAMENTO (COM PÓDIO E DESEMPATE POR TEMPO)
         function iniciarMonitoramento(idSessao) {
             if (unsubscribe) unsubscribe();
 
@@ -654,6 +658,7 @@ correct answer: a" autocomplete="off"></textarea>
                     const scoreDisplay = isEntregue ? `${data.score} / 10` : `-`;
                     const timeFormated = formatarTempoExibicao(data.timeSpent);
                     
+                    // Lógica do Pódio (Somente quem entregou entra no pódio visualmente)
                     let posClass = "bg-normal";
                     let rankDisplay = `${index + 1}º`;
                     let rowClass = "";
