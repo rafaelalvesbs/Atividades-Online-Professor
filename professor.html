@@ -39,10 +39,9 @@
 
         .question-form { background: #fff; padding: 0; border-radius: 0; border: none; flex-shrink: 0; width: 100%; box-sizing: border-box; }
         
-        /* Container do Ranking e Rolagem (Tabindex adicionado via HTML para foco) */
+        /* Container do Ranking e Rolagem */
         .ranking-container { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; outline: none; }
         
-        /* CARDS COMPACTOS: altura fixada, margins reduzidas, alinhamento perfeito */
         .card-premium-list { background: #fff; border-radius: 8px; padding: 0 12px; margin-bottom: 5px; height: 36px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .card-premium-list::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #e2e8f0; }
         .card-premium-list:hover { transform: translateX(2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
@@ -65,8 +64,7 @@
         .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.8); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(8px); }
         .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
         
-        /* Centralização perfeita do QR Code e tamanho gigante */
-        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 20px; height: 100%; position: relative; }
+        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; position: relative; }
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; background: #f8fafc; padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; flex-shrink: 0; }
         .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
@@ -77,6 +75,11 @@
         .btn-fechar-fullscreen { position: absolute; top: 25px; right: 25px; background: rgba(255,255,255,0.2); border: none; width: 50px; height: 50px; border-radius: 50%; color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .btn-fechar-fullscreen:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
 
+        /* TELA CHEIA RANKING */
+        .ranking-fullscreen { position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; width: 100vw !important; height: 100vh !important; z-index: 10000; border-radius: 0 !important; margin: 0 !important; }
+        .ranking-fullscreen h2 { font-size: 24px; }
+        .ranking-fullscreen .card-premium-list { height: 45px; font-size: 16px; }
+
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -85,7 +88,7 @@
 </head>
 <body>
 
-    <!-- Span Oculto obrigatório para armazenar o ID gerado e ser copiado para os Modais -->
+    <!-- Span Oculto obrigatório para armazenar o ID -->
     <span id="sessaoIdDisplay" style="display: none;"></span>
 
     <!-- ALERTA CUSTOMIZADO -->
@@ -137,7 +140,7 @@ correct answer: a" autocomplete="off"></textarea>
             <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-box-archive" style="color: #8b5cf6;"></i> Banco de Atividades
             </h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom: 15px;">Selecione uma atividade salva anteriormente para reutilizar.</p>
+            <p style="font-size:13px; color:#64748b; margin-bottom: 15px;">Selecione uma atividade salva para reutilizar.</p>
             
             <div id="lista-banco" style="max-height: 300px; overflow-y: auto; overflow-x: hidden; padding-right: 5px;"></div>
             
@@ -174,13 +177,14 @@ correct answer: a" autocomplete="off"></textarea>
     <div class="col-left">
         <!-- ÁREA DO QR CODE GERADO -->
         <div class="card-box" id="qrCodeContainer" style="flex: 1;">
-            <!-- Botões flutuantes para Maximizar URL ou QR Code -->
             <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px;">
                 <button onclick="abrirURLFullscreen()" class="btn-action" style="background: #e0e7ff; color: #4f46e5; border: none; padding: 10px 15px;" title="Link Gigante"><i class="fa-solid fa-link"></i> LINK</button>
                 <button onclick="abrirQRFullscreen()" class="btn-action" style="background: #f3e8ff; color: #8b5cf6; border: none; padding: 10px 15px;" title="QR Gigante"><i class="fa-solid fa-expand"></i> QR CODE</button>
             </div>
 
-            <!-- Imagem GIGANTE do QR Code, utilizando o espaço liberado -->
+            <h2 style="font-size: 26px; color: #0f172a; margin-bottom: 10px; justify-content: center;"><i class="fa-solid fa-tower-broadcast" style="color: #8b5cf6;"></i> Sessão Ativa!</h2>
+            <p style="font-weight: 600; color: #64748b; margin-top: 0; margin-bottom: 30px; font-size: 16px;">Peça aos alunos para escanearem o código abaixo:</p>
+            
             <img id="qrImage" src="" alt="QR Code" style="border-radius: 20px; border: 8px solid #f8fafc; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2); width: 420px; height: 420px; max-width: 100%; object-fit: contain; margin: auto;">
             
         </div>
@@ -191,10 +195,8 @@ correct answer: a" autocomplete="off"></textarea>
                 <h2><i class="fa-solid fa-layer-group" style="color: #3b82f6;"></i> Construtor de Atividade</h2>
             </div>
             
-            <!-- Campo Oficial -->
             <input type="text" id="titulo-oficial" class="input-premium" placeholder="Título Oficial da Atividade (Aparece para o Aluno)" autocomplete="off">
             
-            <!-- Campo de Prompt e Botões -->
             <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 15px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px dashed #cbd5e1; flex-shrink: 0; flex-wrap: wrap;">
                 <input type="text" id="prompt-gram" class="input-premium" placeholder="Prompt IA (Ex: Present Simple)" style="flex: 1; margin-bottom: 0; min-width: 150px;" autocomplete="off">
                 <button class="btn-action" id="btn-prompt-gram" onclick="copiarPrompt(event)">
@@ -208,17 +210,14 @@ correct answer: a" autocomplete="off"></textarea>
                 </button>
             </div>
 
-            <!-- SCROLL INTERNO PARA AS QUESTÕES -->
             <div id="formQuestoesContainer" style="flex: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; width: 100%; box-sizing: border-box;"></div>
 
-            <!-- Navegação Paginada -->
             <div class="nav-container">
                 <button class="btn-nav" id="btnPrevProf" onclick="mudarQuestaoProf(-1)"><i class="fa-solid fa-arrow-left"></i> ANTERIOR</button>
                 <span class="page-indicator" id="indicadorProf">1 / 10</span>
                 <button class="btn-nav" id="btnNextProf" onclick="mudarQuestaoProf(1)">PRÓXIMA <i class="fa-solid fa-arrow-right"></i></button>
             </div>
             
-            <!-- Botão de Salvar -->
             <div style="margin-top: 15px; flex-shrink: 0;">
                 <button id="btnGerarSessao" class="btn-gradient">
                     PUBLICAR ATIVIDADE
@@ -240,10 +239,14 @@ correct answer: a" autocomplete="off"></textarea>
             </div>
         </div>
         
-        <div class="card-box" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; min-height: 0;">
-            <h2 style="flex-shrink: 0;"><i class="fa-solid fa-trophy" style="color: #8b5cf6;"></i> Ranking Ao Vivo</h2>
+        <div class="card-box" id="ranking-card" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; margin-bottom: 15px;">
+                <h2 style="margin-bottom: 0;"><i class="fa-solid fa-trophy" style="color: #8b5cf6;"></i> Ranking Ao Vivo</h2>
+                <button onclick="toggleRankingFullscreen()" class="btn-action" style="padding: 8px 12px; margin: 0; background: #f3e8ff; color: #8b5cf6; border: none;">
+                    <i id="ranking-icon-expand" class="fa-solid fa-expand"></i>
+                </button>
+            </div>
             
-            <!-- Lista com Foco e Eventos de Teclado -->
             <div class="ranking-container" id="rankingList" tabindex="0">
                 <div style="text-align: center; color: #94a3b8; margin-top: 60px;">
                     <i class="fa-solid fa-satellite-dish" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i>
@@ -253,14 +256,13 @@ correct answer: a" autocomplete="off"></textarea>
         </div>
     </div>
 
-    <!-- FUNÇÕES DE INTERFACE -->
     <script>
         window.mostrarAlertaCustomizado = function(titulo, mensagem, tipo = 'error') {
             document.getElementById('alert-title').innerText = titulo;
             document.getElementById('alert-msg').innerText = mensagem;
             const icon = document.getElementById('alert-icon');
             if(tipo === 'error') { icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 45px;"></i>'; } 
-            else if (tipo === 'success') { icon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 45px;"></i>'; } 
+            else if (tipo === 'success') { icon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #3b82f6; font-size: 45px;"></i>'; } 
             else { icon.innerHTML = '<i class="fa-solid fa-circle-info" style="color: #3b82f6; font-size: 45px;"></i>'; }
             document.getElementById('custom-alert-modal').style.display = 'flex';
         };
@@ -297,7 +299,21 @@ correct answer: a" autocomplete="off"></textarea>
             document.getElementById('modal-url-full').style.display = 'none';
         };
 
-        // Adiciona rolagem pelo teclado ao Ranking
+        // Função de Tela Cheia do Ranking
+        window.toggleRankingFullscreen = function() {
+            const card = document.getElementById('ranking-card');
+            const icon = document.getElementById('ranking-icon-expand');
+            card.classList.toggle('ranking-fullscreen');
+            
+            if(card.classList.contains('ranking-fullscreen')) {
+                icon.classList.remove('fa-expand');
+                icon.classList.add('fa-compress');
+            } else {
+                icon.classList.remove('fa-compress');
+                icon.classList.add('fa-expand');
+            }
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             const rankingList = document.getElementById('rankingList');
             rankingList.addEventListener('mouseenter', () => rankingList.focus());
@@ -373,7 +389,7 @@ correct answer: a" autocomplete="off"></textarea>
             navigator.clipboard.writeText(prompt).then(() => {
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIADO!';
-                btn.style.background = '#d1fae5'; btn.style.color = '#059669'; btn.style.borderColor = '#059669';
+                btn.style.background = '#eff6ff'; btn.style.color = '#3b82f6'; btn.style.borderColor = '#3b82f6';
                 setTimeout(() => { btn.innerHTML = originalText; btn.style.background = '#f1f5f9'; btn.style.color = '#64748b'; btn.style.borderColor = '#e2e8f0'; }, 2000);
             });
         };
@@ -471,7 +487,6 @@ correct answer: a" autocomplete="off"></textarea>
         let unsubscribe = null;
         window.cacheBancoGlobal = [];
 
-        // LÓGICA DO BANCO DE ATIVIDADES
         window.abrirBancoAtividades = async function() {
             document.getElementById('modal-banco').style.display = 'flex';
             const lista = document.getElementById('lista-banco');
@@ -566,7 +581,6 @@ correct answer: a" autocomplete="off"></textarea>
             );
         };
 
-        // GERAÇÃO DA SALA COM ID 4 DÍGITOS
         document.getElementById('btnGerarSessao').addEventListener('click', async () => {
             const btn = document.getElementById('btnGerarSessao');
             const tituloSessao = document.getElementById('titulo-oficial').value.trim();
@@ -618,7 +632,7 @@ correct answer: a" autocomplete="off"></textarea>
                 const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(linkCompleto)}`;
 
                 document.getElementById('qrImage').src = qrUrl;
-                document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId; // Hidden, mas guarda o valor
+                document.getElementById('sessaoIdDisplay').innerText = sessaoAtualId;
                 
                 document.getElementById('areaCriacaoQuestoes').style.display = 'none';
                 document.getElementById('qrCodeContainer').style.display = 'flex';
@@ -633,7 +647,6 @@ correct answer: a" autocomplete="off"></textarea>
             }
         });
 
-        // MONITORAMENTO (COM PÓDIO E DESEMPATE POR TEMPO)
         function iniciarMonitoramento(idSessao) {
             if (unsubscribe) unsubscribe();
 
@@ -655,7 +668,6 @@ correct answer: a" autocomplete="off"></textarea>
                 let alunos = [];
                 snapshot.forEach((doc) => { alunos.push({ id: doc.id, ...doc.data() }); });
                 
-                // ORDENAÇÃO: 1º Nota Maior, 2º Tempo Menor
                 alunos.sort((a, b) => {
                     if (b.score !== a.score) return b.score - a.score;
                     const tA = a.timeSpent || Infinity;
@@ -673,7 +685,6 @@ correct answer: a" autocomplete="off"></textarea>
                     const scoreDisplay = isEntregue ? `${data.score} / 10` : `-`;
                     const timeFormated = formatarTempoExibicao(data.timeSpent);
                     
-                    // Lógica do Pódio
                     let posClass = "bg-normal";
                     let rankDisplay = `${index + 1}º`;
                     let rowClass = "";
