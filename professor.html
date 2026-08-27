@@ -39,8 +39,10 @@
 
         .question-form { background: #fff; padding: 0; border-radius: 0; border: none; flex-shrink: 0; width: 100%; box-sizing: border-box; }
         
+        /* Container do Ranking e Rolagem (Tabindex adicionado via HTML para foco) */
         .ranking-container { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; outline: none; }
         
+        /* CARDS COMPACTOS */
         .card-premium-list { background: #fff; border-radius: 8px; padding: 0 12px; margin-bottom: 5px; height: 36px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .card-premium-list::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #e2e8f0; }
         .card-premium-list:hover { transform: translateX(2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
@@ -59,10 +61,15 @@
         .badge.pending { background: #f1f5f9; color: #64748b; }
         .badge.done { background: #f3e8ff; color: #8b5cf6; }
 
+        /* Botão de Excluir Aluno do Ranking */
+        .btn-remover-aluno { background: transparent; border: none; color: #cbd5e1; font-size: 14px; cursor: pointer; padding: 5px; margin-left: 8px; border-radius: 6px; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .btn-remover-aluno:hover { color: #ef4444; background: #fef2f2; }
+
         /* Estilo dos Modais */
         .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.8); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(8px); }
-        .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
+        .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; box-sizing: border-box; }
         
+        /* Centralização perfeita do QR Code */
         #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; min-height: 80vh; position: relative; }
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; background: #f8fafc; padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; flex-shrink: 0; }
@@ -78,7 +85,6 @@
         .ranking-fullscreen { position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; width: 100vw !important; height: 100vh !important; z-index: 10000; border-radius: 0 !important; margin: 0 !important; box-sizing: border-box !important; padding: 30px !important; }
         .ranking-fullscreen h2 { font-size: 28px; margin-bottom: 25px; }
         
-        /* Grid Duas Colunas */
         .ranking-fullscreen .ranking-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 24px; align-content: start; }
         .ranking-fullscreen .card-premium-list { height: 48px; font-size: 16px; padding: 0 20px; margin-bottom: 0; width: 100%; box-sizing: border-box; }
         .ranking-fullscreen .card-premium-list h3 { font-size: 16px !important; }
@@ -93,6 +99,7 @@
 </head>
 <body>
 
+    <!-- Span Oculto obrigatório para armazenar o ID -->
     <span id="sessaoIdDisplay" style="display: none;"></span>
 
     <!-- ALERTA CUSTOMIZADO -->
@@ -105,7 +112,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE CONFIRMAÇÃO -->
+    <!-- MODAL DE CONFIRMAÇÃO (Alta prioridade de camada) -->
     <div id="custom-confirm-modal" class="modal-overlay" style="z-index: 10005;">
         <div class="modal-content" style="max-width: 400px;">
             <div style="margin-bottom: 15px;"><i class="fa-solid fa-triangle-exclamation" style="color: #8b5cf6; font-size: 45px;"></i></div>
@@ -303,7 +310,6 @@ correct answer: a" autocomplete="off"></textarea>
             document.getElementById('modal-url-full').style.display = 'none';
         };
 
-        // Função de Tela Cheia do Ranking
         window.toggleRankingFullscreen = function() {
             const card = document.getElementById('ranking-card');
             const icon = document.getElementById('ranking-icon-expand');
@@ -585,6 +591,7 @@ correct answer: a" autocomplete="off"></textarea>
             );
         };
 
+        // GERAÇÃO DA SALA COM ID 4 DÍGITOS
         document.getElementById('btnGerarSessao').addEventListener('click', async () => {
             const btn = document.getElementById('btnGerarSessao');
             const tituloSessao = document.getElementById('titulo-oficial').value.trim();
@@ -651,6 +658,23 @@ correct answer: a" autocomplete="off"></textarea>
             }
         });
 
+        // NOVA FUNÇÃO: REMOVER ALUNO DA SESSÃO
+        window.excluirAlunoSessao = async function(docId, nomeAluno) {
+            window.mostrarConfirmacaoCustomizada(
+                "Remover Aluno",
+                `Tem certeza que deseja remover "${nomeAluno}" desta sala? Essa ação não pode ser desfeita.`,
+                async function() {
+                    try {
+                        await deleteDoc(doc(db, "grammar_activity", docId));
+                        // O onSnapshot cuidará de atualizar a tela sozinho!
+                    } catch(e) {
+                        console.error("Erro ao remover aluno", e);
+                        window.mostrarAlertaCustomizado("Erro", "Não foi possível remover o aluno.", "error");
+                    }
+                }
+            );
+        };
+
         function iniciarMonitoramento(idSessao) {
             if (unsubscribe) unsubscribe();
 
@@ -670,7 +694,7 @@ correct answer: a" autocomplete="off"></textarea>
 
                 rankingList.innerHTML = ''; 
                 let alunos = [];
-                snapshot.forEach((doc) => { alunos.push({ id: doc.id, ...doc.data() }); });
+                snapshot.forEach((docSnap) => { alunos.push({ id: docSnap.id, ...docSnap.data() }); });
                 
                 alunos.sort((a, b) => {
                     if (b.score !== a.score) return b.score - a.score;
@@ -698,6 +722,9 @@ correct answer: a" autocomplete="off"></textarea>
                         else if (index === 1) { posClass = "bg-2"; rankDisplay = '<i class="fa-solid fa-medal"></i>'; rowClass = "podio-2"; }
                         else if (index === 2) { posClass = "bg-3"; rankDisplay = '<i class="fa-solid fa-medal"></i>'; rowClass = "podio-3"; }
                     }
+                    
+                    // Escapando aspas no nome do aluno para não quebrar o JS no onClick
+                    const nomeEscapado = data.name.replace(/'/g, "\\'");
 
                     rankingList.innerHTML += `
                         <div class="card-premium-list ${baseClass} ${rowClass}">
@@ -713,6 +740,10 @@ correct answer: a" autocomplete="off"></textarea>
                                     ${isEntregue ? `<span style="font-size: 9px; color: #64748b; font-weight: 700; margin-top: 3px;"><i class="fa-regular fa-clock"></i> ${timeFormated}</span>` : ''}
                                 </div>
                                 <span style="font-size: 14px; font-weight: 900; color: #0f172a; min-width: 35px; text-align: right;">${scoreDisplay}</span>
+                                
+                                <button class="btn-remover-aluno" onclick="window.excluirAlunoSessao('${data.id}', '${nomeEscapado}')" title="Remover Aluno da Sala">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
                             </div>
                         </div>
                     `;
