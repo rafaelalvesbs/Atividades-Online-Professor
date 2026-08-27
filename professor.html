@@ -39,7 +39,6 @@
 
         .question-form { background: #fff; padding: 0; border-radius: 0; border: none; flex-shrink: 0; width: 100%; box-sizing: border-box; }
         
-        /* Container do Ranking e Rolagem */
         .ranking-container { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; outline: none; }
         
         .card-premium-list { background: #fff; border-radius: 8px; padding: 0 12px; margin-bottom: 5px; height: 36px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
@@ -64,7 +63,7 @@
         .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.8); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(8px); }
         .modal-content { background: #fff; width: 90%; max-width: 600px; border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); text-align: center; }
         
-        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; position: relative; }
+        #qrCodeContainer { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 5px solid #8b5cf6; padding: 40px 20px; height: 100%; min-height: 80vh; position: relative; }
 
         .nav-container { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; background: #f8fafc; padding: 10px 15px; border-radius: 10px; border: 1px solid #e2e8f0; flex-shrink: 0; }
         .btn-nav { background: #fff; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 12px; text-transform: uppercase; }
@@ -75,10 +74,16 @@
         .btn-fechar-fullscreen { position: absolute; top: 25px; right: 25px; background: rgba(255,255,255,0.2); border: none; width: 50px; height: 50px; border-radius: 50%; color: #fff; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .btn-fechar-fullscreen:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
 
-        /* TELA CHEIA RANKING */
-        .ranking-fullscreen { position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; width: 100vw !important; height: 100vh !important; z-index: 10000; border-radius: 0 !important; margin: 0 !important; }
-        .ranking-fullscreen h2 { font-size: 24px; }
-        .ranking-fullscreen .card-premium-list { height: 45px; font-size: 16px; }
+        /* TELA CHEIA RANKING - COM GRID DE 2 COLUNAS */
+        .ranking-fullscreen { position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; width: 100vw !important; height: 100vh !important; z-index: 10000; border-radius: 0 !important; margin: 0 !important; box-sizing: border-box !important; padding: 30px !important; }
+        .ranking-fullscreen h2 { font-size: 28px; margin-bottom: 25px; }
+        
+        /* Grid Duas Colunas */
+        .ranking-fullscreen .ranking-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 24px; align-content: start; }
+        .ranking-fullscreen .card-premium-list { height: 48px; font-size: 16px; padding: 0 20px; margin-bottom: 0; width: 100%; box-sizing: border-box; }
+        .ranking-fullscreen .card-premium-list h3 { font-size: 16px !important; }
+        .ranking-fullscreen .rank-pos { width: 30px; height: 30px; font-size: 14px; }
+        .ranking-fullscreen .badge { font-size: 11px; padding: 5px 10px; }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
@@ -88,7 +93,6 @@
 </head>
 <body>
 
-    <!-- Span Oculto obrigatório para armazenar o ID -->
     <span id="sessaoIdDisplay" style="display: none;"></span>
 
     <!-- ALERTA CUSTOMIZADO -->
@@ -120,7 +124,7 @@
             <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> Importar com IA
             </h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom: 20px;">Cole o texto gerado pela Inteligência Artificial abaixo (questões, alternativas e correct answer).</p>
+            <p style="font-size:13px; color:#64748b; margin-bottom: 20px;">Cole o texto gerado pela Inteligência Artificial abaixo.</p>
             <textarea id="texto-importar" class="input-premium" style="height:250px; resize:none; font-family: monospace; font-size: 13px;" placeholder="Ex: 
 1) The cat ___ on the table.
 a) is
@@ -140,7 +144,7 @@ correct answer: a" autocomplete="off"></textarea>
             <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-box-archive" style="color: #8b5cf6;"></i> Banco de Atividades
             </h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom: 15px;">Selecione uma atividade salva para reutilizar.</p>
+            <p style="font-size:13px; color:#64748b; margin-bottom: 15px;">Selecione uma atividade salva anteriormente para reutilizar.</p>
             
             <div id="lista-banco" style="max-height: 300px; overflow-y: auto; overflow-x: hidden; padding-right: 5px;"></div>
             
@@ -155,7 +159,7 @@ correct answer: a" autocomplete="off"></textarea>
         <button class="btn-fechar-fullscreen" onclick="fecharQRFullscreen()">
             <i class="fa-solid fa-xmark"></i>
         </button>
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; box-sizing: border-box;">
             <img id="qrImageFull" src="" style="width: 80vh; max-width: 90vw; height: 80vh; max-height: 90vw; background: #fff; padding: 30px; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); object-fit: contain;">
         </div>
     </div>
@@ -165,7 +169,7 @@ correct answer: a" autocomplete="off"></textarea>
         <button class="btn-fechar-fullscreen" onclick="fecharURLFullscreen()">
             <i class="fa-solid fa-xmark"></i>
         </button>
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; width: 100%; box-sizing: border-box;">
             <div style="background: #fff; padding: 60px; border-radius: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 90vw;">
                 <p style="font-size: 4vw; font-weight: 900; color: #3b82f6; margin: 0; letter-spacing: -1px; word-break: break-all;">rafaelalvesbs.github.io/Atividades-Online-Aluno/</p>
                 <p style="font-size: 3vw; color: #0f172a; font-weight: 800; margin: 30px 0 0 0;">ID DA SALA: <span id="sessaoIdDisplayLink" style="color: #8b5cf6;"></span></p>
@@ -186,7 +190,6 @@ correct answer: a" autocomplete="off"></textarea>
             <p style="font-weight: 600; color: #64748b; margin-top: 0; margin-bottom: 30px; font-size: 16px;">Peça aos alunos para escanearem o código abaixo:</p>
             
             <img id="qrImage" src="" alt="QR Code" style="border-radius: 20px; border: 8px solid #f8fafc; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2); width: 420px; height: 420px; max-width: 100%; object-fit: contain; margin: auto;">
-            
         </div>
 
         <!-- FORMULÁRIO DE CRIAÇÃO -->
@@ -239,16 +242,16 @@ correct answer: a" autocomplete="off"></textarea>
             </div>
         </div>
         
-        <div class="card-box" id="ranking-card" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden;">
+        <div class="card-box" id="ranking-card" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; min-height: 0;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; margin-bottom: 15px;">
                 <h2 style="margin-bottom: 0;"><i class="fa-solid fa-trophy" style="color: #8b5cf6;"></i> Ranking Ao Vivo</h2>
-                <button onclick="toggleRankingFullscreen()" class="btn-action" style="padding: 8px 12px; margin: 0; background: #f3e8ff; color: #8b5cf6; border: none;">
+                <button onclick="toggleRankingFullscreen()" class="btn-action" style="padding: 8px 12px; margin: 0; background: #f3e8ff; color: #8b5cf6; border: none; cursor: pointer; position: relative; z-index: 10001;">
                     <i id="ranking-icon-expand" class="fa-solid fa-expand"></i>
                 </button>
             </div>
             
             <div class="ranking-container" id="rankingList" tabindex="0">
-                <div style="text-align: center; color: #94a3b8; margin-top: 60px;">
+                <div style="text-align: center; color: #94a3b8; margin-top: 60px; grid-column: 1 / -1;">
                     <i class="fa-solid fa-satellite-dish" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i>
                     <p style="font-weight: 600; font-size: 14px;">Aguardando início da sessão...</p>
                 </div>
@@ -256,13 +259,14 @@ correct answer: a" autocomplete="off"></textarea>
         </div>
     </div>
 
+    <!-- FUNÇÕES DE INTERFACE -->
     <script>
         window.mostrarAlertaCustomizado = function(titulo, mensagem, tipo = 'error') {
             document.getElementById('alert-title').innerText = titulo;
             document.getElementById('alert-msg').innerText = mensagem;
             const icon = document.getElementById('alert-icon');
             if(tipo === 'error') { icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 45px;"></i>'; } 
-            else if (tipo === 'success') { icon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #3b82f6; font-size: 45px;"></i>'; } 
+            else if (tipo === 'success') { icon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 45px;"></i>'; } 
             else { icon.innerHTML = '<i class="fa-solid fa-circle-info" style="color: #3b82f6; font-size: 45px;"></i>'; }
             document.getElementById('custom-alert-modal').style.display = 'flex';
         };
@@ -658,7 +662,7 @@ correct answer: a" autocomplete="off"></textarea>
                 const rankingList = document.getElementById('rankingList');
                 
                 if (snapshot.empty) {
-                    rankingList.innerHTML = '<div style="text-align: center; color: #94a3b8; margin-top: 60px;"><i class="fa-solid fa-satellite-dish" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i><p style="font-weight: 600; font-size: 14px;">Aguardando início da sessão...</p></div>';
+                    rankingList.innerHTML = '<div style="text-align: center; color: #94a3b8; margin-top: 60px; grid-column: 1 / -1;"><i class="fa-solid fa-satellite-dish" style="font-size: 40px; margin-bottom: 15px; opacity: 0.3;"></i><p style="font-weight: 600; font-size: 14px;">Aguardando início da sessão...</p></div>';
                     document.getElementById('countLogados').innerText = 0;
                     document.getElementById('countEntregues').innerText = 0;
                     return;
