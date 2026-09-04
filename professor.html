@@ -39,10 +39,8 @@
 
         .question-form { background: #fff; padding: 0; border-radius: 0; border: none; flex-shrink: 0; width: 100%; box-sizing: border-box; }
         
-        /* Container do Ranking e Rolagem (Tabindex adicionado via HTML para foco) */
         .ranking-container { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; outline: none; }
         
-        /* CARDS COMPACTOS */
         .card-premium-list { background: #fff; border-radius: 8px; padding: 0 12px; margin-bottom: 5px; height: 36px; display: flex; align-items: center; border: 1px solid #f1f5f9; transition: all 0.2s ease; position: relative; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .card-premium-list::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #e2e8f0; }
         .card-premium-list:hover { transform: translateX(2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
@@ -112,7 +110,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE CONFIRMAÇÃO (Alta prioridade de camada) -->
+    <!-- MODAL DE CONFIRMAÇÃO -->
     <div id="custom-confirm-modal" class="modal-overlay" style="z-index: 10005;">
         <div class="modal-content" style="max-width: 400px;">
             <div style="margin-bottom: 15px;"><i class="fa-solid fa-triangle-exclamation" style="color: #8b5cf6; font-size: 45px;"></i></div>
@@ -131,7 +129,7 @@
             <h3 style="color:#0f172a; margin-top:0; font-weight: 800; font-size: 22px; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> Importar com IA
             </h3>
-            <p style="font-size:13px; color:#64748b; margin-bottom: 20px;">Cole o texto gerado pela Inteligência Artificial abaixo.</p>
+            <p style="font-size:13px; color:#64748b; margin-bottom: 20px;">Cole o texto gerado pela Inteligência Artificial abaixo (questões, alternativas e correct answer).</p>
             <textarea id="texto-importar" class="input-premium" style="height:250px; resize:none; font-family: monospace; font-size: 13px;" placeholder="Ex: 
 1) The cat ___ on the table.
 a) is
@@ -205,8 +203,10 @@ correct answer: a" autocomplete="off"></textarea>
                 <h2><i class="fa-solid fa-layer-group" style="color: #3b82f6;"></i> Construtor de Atividade</h2>
             </div>
             
+            <!-- Campo Oficial -->
             <input type="text" id="titulo-oficial" class="input-premium" placeholder="Título Oficial da Atividade (Aparece para o Aluno)" autocomplete="off">
             
+            <!-- Campo de Prompt e Botões -->
             <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 15px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px dashed #cbd5e1; flex-shrink: 0; flex-wrap: wrap;">
                 <input type="text" id="prompt-gram" class="input-premium" placeholder="Prompt IA (Ex: Present Simple)" style="flex: 1; margin-bottom: 0; min-width: 150px;" autocomplete="off">
                 <button class="btn-action" id="btn-prompt-gram" onclick="copiarPrompt(event)">
@@ -220,14 +220,17 @@ correct answer: a" autocomplete="off"></textarea>
                 </button>
             </div>
 
+            <!-- SCROLL INTERNO PARA AS QUESTÕES -->
             <div id="formQuestoesContainer" style="flex: 1; overflow-y: auto; overflow-x: hidden; padding-right: 5px; width: 100%; box-sizing: border-box;"></div>
 
+            <!-- Navegação Paginada -->
             <div class="nav-container">
                 <button class="btn-nav" id="btnPrevProf" onclick="mudarQuestaoProf(-1)"><i class="fa-solid fa-arrow-left"></i> ANTERIOR</button>
                 <span class="page-indicator" id="indicadorProf">1 / 10</span>
                 <button class="btn-nav" id="btnNextProf" onclick="mudarQuestaoProf(1)">PRÓXIMA <i class="fa-solid fa-arrow-right"></i></button>
             </div>
             
+            <!-- Botão de Salvar -->
             <div style="margin-top: 15px; flex-shrink: 0;">
                 <button id="btnGerarSessao" class="btn-gradient">
                     PUBLICAR ATIVIDADE
@@ -466,10 +469,11 @@ correct answer: a" autocomplete="off"></textarea>
         };
 
         function formatarTempoExibicao(msTotal) {
-            if(!msTotal || msTotal === Infinity) return '--:--';
+            if(!msTotal || msTotal === Infinity) return '--:--.---';
             const mins = Math.floor(msTotal / 60000);
             const segs = Math.floor((msTotal % 60000) / 1000);
-            return `${mins.toString().padStart(2, '0')}:${segs.toString().padStart(2, '0')}`;
+            const ms = Math.floor(msTotal % 1000);
+            return `${mins.toString().padStart(2, '0')}:${segs.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
         }
     </script>
 
@@ -591,7 +595,6 @@ correct answer: a" autocomplete="off"></textarea>
             );
         };
 
-        // GERAÇÃO DA SALA COM ID 4 DÍGITOS
         document.getElementById('btnGerarSessao').addEventListener('click', async () => {
             const btn = document.getElementById('btnGerarSessao');
             const tituloSessao = document.getElementById('titulo-oficial').value.trim();
@@ -658,7 +661,6 @@ correct answer: a" autocomplete="off"></textarea>
             }
         });
 
-        // NOVA FUNÇÃO: REMOVER ALUNO DA SESSÃO
         window.excluirAlunoSessao = async function(docId, nomeAluno) {
             window.mostrarConfirmacaoCustomizada(
                 "Remover Aluno",
@@ -666,7 +668,6 @@ correct answer: a" autocomplete="off"></textarea>
                 async function() {
                     try {
                         await deleteDoc(doc(db, "grammar_activity", docId));
-                        // O onSnapshot cuidará de atualizar a tela sozinho!
                     } catch(e) {
                         console.error("Erro ao remover aluno", e);
                         window.mostrarAlertaCustomizado("Erro", "Não foi possível remover o aluno.", "error");
@@ -723,7 +724,6 @@ correct answer: a" autocomplete="off"></textarea>
                         else if (index === 2) { posClass = "bg-3"; rankDisplay = '<i class="fa-solid fa-medal"></i>'; rowClass = "podio-3"; }
                     }
                     
-                    // Escapando aspas no nome do aluno para não quebrar o JS no onClick
                     const nomeEscapado = data.name.replace(/'/g, "\\'");
 
                     rankingList.innerHTML += `
